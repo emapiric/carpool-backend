@@ -17,28 +17,37 @@ import java.util.Objects;
 public class UserEntity implements MyEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String username;
     private String email;
     private String password;
+    @Column(name="full_name")
     private String fullName;
     private String phone;
     @ManyToOne
     @JoinColumn(name="id")
+    @Column(name="work_address")
     private AddressEntity workAddress;
     @ManyToOne
     @JoinColumn(name="id")
+    @Column(name="home_address")
     private AddressEntity homeAddress;
     @ManyToOne
     @JoinColumn(name="plate_number")
     private CarEntity car;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany
     private List<WorkingTimeEntity> workDays = new ArrayList<WorkingTimeEntity>();
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TakenRideEntity> takenRides = new ArrayList<TakenRideEntity>();
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RideEntity> drivenRides = new ArrayList<RideEntity>();
 
+    private void addTakenRide(RideEntity ride, boolean isApproved){
+        TakenRideEntity takenRide = new TakenRideEntity(this, ride, isApproved);
+        takenRides.add(takenRide);
+        ride
+                .getPassengers().add(takenRide);
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

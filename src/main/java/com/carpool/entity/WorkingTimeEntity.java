@@ -16,24 +16,24 @@ import java.util.Objects;
 public class WorkingTimeEntity implements MyEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
+    @Column(name="day_of_week")
     private int dayOfWeek;
+    @Column(name="start_time")
     private LocalDate startTime = LocalDate.now();
+    @Column(name="end_time")
     private LocalDate endTime = LocalDate.now();
-    @ManyToOne
-    @JoinColumn(name="id")
-    private UserEntity user;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof WorkingTimeEntity)) return false;
         WorkingTimeEntity that = (WorkingTimeEntity) o;
-        return id == that.id && dayOfWeek == that.dayOfWeek && Objects.equals(startTime, that.startTime) && Objects.equals(endTime, that.endTime) && Objects.equals(user, that.user);
+        return id == that.id && dayOfWeek == that.dayOfWeek && Objects.equals(startTime, that.startTime) && Objects.equals(endTime, that.endTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, dayOfWeek, startTime, endTime, user);
+        return Objects.hash(id, dayOfWeek, startTime, endTime);
     }
 }

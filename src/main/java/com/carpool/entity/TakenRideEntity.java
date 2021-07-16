@@ -1,39 +1,54 @@
 package com.carpool.entity;
 
+import javax.persistence.*;
+
 import lombok.*;
 
-import javax.persistence.*;
 import java.util.Objects;
 
-@Entity
+@RequiredArgsConstructor
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
 @NoArgsConstructor
+@Entity(name="TakenRide")
 @Table(name="taken_ride")
-public class TakenRideEntity implements MyEntity{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @ManyToOne
-    @JoinColumn(name="id")
-    private UserEntity user;
-    @ManyToOne
-    @JoinColumn(name="id")
-    private RideEntity ride;
-    private boolean isApproved;
+public class TakenRideEntity {
+	
+	@EmbeddedId
+	private TakenRideId id;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@MapsId("userId")
+	private UserEntity user;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@MapsId("rideId")
+	private RideEntity ride;
+	@Column(name="is_approved")
+	private boolean isApproved;
+	
+	public TakenRideEntity(UserEntity user, RideEntity ride, boolean isApproved) {
+		this.id = new TakenRideId(user.getId(), ride.getId());
+		this.user = user;
+		this.ride = ride;
+		this.isApproved = isApproved;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof TakenRideEntity)) return false;
-        TakenRideEntity that = (TakenRideEntity) o;
-        return id == that.id && isApproved == that.isApproved && Objects.equals(user, that.user) && Objects.equals(ride, that.ride);
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, user, ride, isApproved);
-    }
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		TakenRideEntity that = (TakenRideEntity) o;
+		return Objects.equals(ride, that.ride) &&
+				Objects.equals(user, that.user);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(user, ride);
+	}
+	
+
 }
