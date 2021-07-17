@@ -35,7 +35,7 @@ public class UserEntity implements MyEntity{
     @OneToOne
     @JoinColumn(name="plate_number")
     private CarEntity car;
-    @OneToMany
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WorkingTimeEntity> workDays = new ArrayList<WorkingTimeEntity>();
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RatingEntity> ratings = new ArrayList<RatingEntity>();
