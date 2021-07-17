@@ -7,25 +7,15 @@ import java.util.Objects;
 
 import javax.persistence.*;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 @Entity
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
-@NoArgsConstructor
 @Table(name="ride")
 public class RideEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany(mappedBy = "ride", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TakenRideEntity> passengers = new ArrayList<>();
+    private List<TakenRideEntity> passengers = new ArrayList<TakenRideEntity>();
     private int capacity;
     @Column(name="date_time")
     private LocalDate dateTime = LocalDate.now();
@@ -42,6 +32,108 @@ public class RideEntity {
     @ManyToOne
     @JoinColumn(name="id")
     private UserEntity driver;
+
+    public RideEntity(Long id, List<TakenRideEntity> passengers, int capacity, LocalDate dateTime, AddressEntity from, AddressEntity to, double pricePerPerson, boolean isCarpool, UserEntity driver) {
+        this.id = id;
+        this.passengers = passengers;
+        this.capacity = capacity;
+        this.dateTime = dateTime;
+        this.from = from;
+        this.to = to;
+        this.pricePerPerson = pricePerPerson;
+        this.isCarpool = isCarpool;
+        this.driver = driver;
+    }
+
+    public RideEntity() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<TakenRideEntity> getPassengers() {
+        return passengers;
+    }
+
+    public void setPassengers(List<TakenRideEntity> passengers) {
+        this.passengers = passengers;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public LocalDate getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDate dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public AddressEntity getFrom() {
+        return from;
+    }
+
+    public void setFrom(AddressEntity from) {
+        this.from = from;
+    }
+
+    public AddressEntity getTo() {
+        return to;
+    }
+
+    public void setTo(AddressEntity to) {
+        this.to = to;
+    }
+
+    public double getPricePerPerson() {
+        return pricePerPerson;
+    }
+
+    public void setPricePerPerson(double pricePerPerson) {
+        this.pricePerPerson = pricePerPerson;
+    }
+
+    public boolean isCarpool() {
+        return isCarpool;
+    }
+
+    public void setCarpool(boolean carpool) {
+        isCarpool = carpool;
+    }
+
+    public UserEntity getDriver() {
+        return driver;
+    }
+
+    public void setDriver(UserEntity driver) {
+        this.driver = driver;
+    }
+
+    @Override
+    public String toString() {
+        return "RideEntity{" +
+                "id=" + id +
+                ", passengers=" + passengers +
+                ", capacity=" + capacity +
+                ", dateTime=" + dateTime +
+                ", from=" + from +
+                ", to=" + to +
+                ", pricePerPerson=" + pricePerPerson +
+                ", isCarpool=" + isCarpool +
+                ", driver=" + driver +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o) {

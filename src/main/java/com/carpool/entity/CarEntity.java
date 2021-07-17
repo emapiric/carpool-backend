@@ -1,17 +1,10 @@
 package com.carpool.entity;
 
-import lombok.*;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
-@NoArgsConstructor
 @Table(name="car")
 public class CarEntity implements MyEntity {
     @Id
@@ -25,6 +18,88 @@ public class CarEntity implements MyEntity {
     private String color;
     @OneToOne
     private UserEntity owner;
+
+    public CarEntity(Long id, String manufacturer, String model, String type, LocalDate yearOfManufacturing, String color, UserEntity owner) {
+        this.id = id;
+        this.manufacturer = manufacturer;
+        this.model = model;
+        this.type = type;
+        this.yearOfManufacturing = yearOfManufacturing;
+        this.color = color;
+        this.owner = owner;
+    }
+
+    public CarEntity() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public LocalDate getYearOfManufacturing() {
+        return yearOfManufacturing;
+    }
+
+    public void setYearOfManufacturing(LocalDate yearOfManufacturing) {
+        this.yearOfManufacturing = yearOfManufacturing;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public UserEntity getOwner() {
+        return owner;
+    }
+
+    public void setOwner(UserEntity owner) {
+        this.owner = owner;
+    }
+
+    @Override
+    public String toString() {
+        return "CarEntity{" +
+                "id=" + id +
+                ", manufacturer='" + manufacturer + '\'' +
+                ", model='" + model + '\'' +
+                ", type='" + type + '\'' +
+                ", yearOfManufacturing=" + yearOfManufacturing +
+                ", color='" + color + '\'' +
+                ", owner=" + owner +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -6,16 +6,6 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-@RequiredArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-@ToString
 @Embeddable
 public class TakenRideId implements Serializable {
 	/**
@@ -30,6 +20,37 @@ public class TakenRideId implements Serializable {
 	public TakenRideId(Long userId, Long rideId) {
 		this.userId = userId;
 		this.rideId = rideId;
+	}
+
+	public TakenRideId() {
+	}
+
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
+	}
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+
+	public long getRideId() {
+		return rideId;
+	}
+
+	public void setRideId(long rideId) {
+		this.rideId = rideId;
+	}
+
+	@Override
+	public String toString() {
+		return "TakenRideId{" +
+				"userId=" + userId +
+				", rideId=" + rideId +
+				'}';
 	}
 
 	@Override

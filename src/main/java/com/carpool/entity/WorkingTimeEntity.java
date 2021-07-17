@@ -1,17 +1,10 @@
 package com.carpool.entity;
 
-import lombok.*;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
-@NoArgsConstructor
 @Table(name="working_time")
 public class WorkingTimeEntity implements MyEntity {
     @Id
@@ -23,6 +16,58 @@ public class WorkingTimeEntity implements MyEntity {
     private LocalDate startTime = LocalDate.now();
     @Column(name="end_time")
     private LocalDate endTime = LocalDate.now();
+
+    public WorkingTimeEntity(Long id, int dayOfWeek, LocalDate startTime, LocalDate endTime) {
+        this.id = id;
+        this.dayOfWeek = dayOfWeek;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    public WorkingTimeEntity() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setDayOfWeek(int dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+
+    public LocalDate getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDate startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDate getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDate endTime) {
+        this.endTime = endTime;
+    }
+
+    @Override
+    public String toString() {
+        return "WorkingTimeEntity{" +
+                "id=" + id +
+                ", dayOfWeek=" + dayOfWeek +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o) {

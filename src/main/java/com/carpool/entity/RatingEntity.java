@@ -1,17 +1,11 @@
 package com.carpool.entity;
 
-import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
-@NoArgsConstructor
 @Table(name="rating")
 public class RatingEntity implements MyEntity {
     @Id
@@ -23,6 +17,68 @@ public class RatingEntity implements MyEntity {
     @ManyToOne
     @JoinColumn(name="id")
     private UserEntity driver;
+
+    public RatingEntity(Long id, int rating, LocalDate date, String comment, UserEntity driver) {
+        this.id = id;
+        this.rating = rating;
+        this.date = date;
+        this.comment = comment;
+        this.driver = driver;
+    }
+
+    public RatingEntity() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public UserEntity getDriver() {
+        return driver;
+    }
+
+    public void setDriver(UserEntity driver) {
+        this.driver = driver;
+    }
+
+    @Override
+    public String toString() {
+        return "RatingEntity{" +
+                "id=" + id +
+                ", rating=" + rating +
+                ", date=" + date +
+                ", comment='" + comment + '\'' +
+                ", driver=" + driver +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o) {

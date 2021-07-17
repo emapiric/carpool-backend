@@ -1,18 +1,9 @@
 package com.carpool.entity;
 
-import lombok.*;
-
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
-@NoArgsConstructor
 @Table(name="address")
 public class AddressEntity implements MyEntity{
     @Id
@@ -23,6 +14,58 @@ public class AddressEntity implements MyEntity{
     @ManyToOne
     @JoinColumn(name="postal_code")
     private CityEntity city;
+
+    public AddressEntity(Long id, String street, String number, CityEntity city) {
+        this.id = id;
+        this.street = street;
+        this.number = number;
+        this.city = city;
+    }
+
+    public AddressEntity() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public CityEntity getCity() {
+        return city;
+    }
+
+    public void setCity(CityEntity city) {
+        this.city = city;
+    }
+
+    @Override
+    public String toString() {
+        return "AddressEntity{" +
+                "id=" + id +
+                ", street='" + street + '\'' +
+                ", number='" + number + '\'' +
+                ", city=" + city +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o) {

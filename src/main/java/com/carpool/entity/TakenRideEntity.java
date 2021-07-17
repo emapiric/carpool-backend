@@ -2,15 +2,8 @@ package com.carpool.entity;
 
 import javax.persistence.*;
 
-import lombok.*;
-
 import java.util.Objects;
 
-@RequiredArgsConstructor
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
 @Entity(name="TakenRide")
 @Table(name="taken_ride")
 public class TakenRideEntity {
@@ -33,6 +26,68 @@ public class TakenRideEntity {
 		this.ride = ride;
 		this.isApproved = isApproved;
 		this.isDone = isDone;
+	}
+
+	public TakenRideEntity(TakenRideId id, UserEntity user, RideEntity ride, boolean isApproved, boolean isDone) {
+		this.id = id;
+		this.user = user;
+		this.ride = ride;
+		this.isApproved = isApproved;
+		this.isDone = isDone;
+	}
+
+	public TakenRideEntity() {
+	}
+
+	public TakenRideId getId() {
+		return id;
+	}
+
+	public void setId(TakenRideId id) {
+		this.id = id;
+	}
+
+	public UserEntity getUser() {
+		return user;
+	}
+
+	public void setUser(UserEntity user) {
+		this.user = user;
+	}
+
+	public RideEntity getRide() {
+		return ride;
+	}
+
+	public void setRide(RideEntity ride) {
+		this.ride = ride;
+	}
+
+	public boolean isApproved() {
+		return isApproved;
+	}
+
+	public void setApproved(boolean approved) {
+		isApproved = approved;
+	}
+
+	public boolean isDone() {
+		return isDone;
+	}
+
+	public void setDone(boolean done) {
+		isDone = done;
+	}
+
+	@Override
+	public String toString() {
+		return "TakenRideEntity{" +
+				"id=" + id +
+				", user=" + user +
+				", ride=" + ride +
+				", isApproved=" + isApproved +
+				", isDone=" + isDone +
+				'}';
 	}
 
 	@Override
