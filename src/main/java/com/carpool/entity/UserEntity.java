@@ -18,19 +18,17 @@ public class UserEntity implements MyEntity{
     private String fullName;
     private String phone;
     @ManyToOne
-    @JoinColumn(name="id")
-    @Column(name="work_address")
+    @JoinColumn(name="workAddress", referencedColumnName = "id")
     private AddressEntity workAddress;
     @ManyToOne
-    @JoinColumn(name="id")
-    @Column(name="home_address")
+    @JoinColumn(name="homeAddress", referencedColumnName = "id")
     private AddressEntity homeAddress;
     @OneToOne
     @JoinColumn(name="plate_number")
     private CarEntity car;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WorkingTimeEntity> workDays = new ArrayList<WorkingTimeEntity>();
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RatingEntity> ratings = new ArrayList<RatingEntity>();
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TakenRideEntity> takenRides = new ArrayList<TakenRideEntity>();
