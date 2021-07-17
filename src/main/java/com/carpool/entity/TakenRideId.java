@@ -13,9 +13,9 @@ public class TakenRideId implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	@Column
-	private long userId;
+	private Long userId;
 	@Column
-	private long rideId;
+	private Long rideId;
 
 	public TakenRideId(Long userId, Long rideId) {
 		this.userId = userId;

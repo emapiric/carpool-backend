@@ -7,9 +7,13 @@ import java.util.Objects;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.NaturalIdCache;
+
 
 @Entity
 @Table(name="ride")
+@NaturalIdCache
 public class RideEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,17 +24,17 @@ public class RideEntity {
     @Column(name="date_time")
     private LocalDate dateTime = LocalDate.now();
     @ManyToOne
-    @JoinColumn(name="id")
+    @JoinColumn(name="address_from", referencedColumnName = "id")
     private AddressEntity from;
     @ManyToOne
-    @JoinColumn(name="id")
+    @JoinColumn(name="address_to", referencedColumnName = "id")
     private AddressEntity to;
-    @Column(name="price_per_percon")
+    @Column(name="price_per_person")
     private double pricePerPerson;
     @Column(name="is_carpool")
     private boolean isCarpool;
     @ManyToOne
-    @JoinColumn(name="id")
+    @JoinColumn(name="driver",referencedColumnName = "id")
     private UserEntity driver;
 
     public RideEntity(Long id, List<TakenRideEntity> passengers, int capacity, LocalDate dateTime, AddressEntity from, AddressEntity to, double pricePerPerson, boolean isCarpool, UserEntity driver) {

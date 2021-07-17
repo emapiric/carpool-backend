@@ -15,7 +15,7 @@ public class RatingEntity implements MyEntity {
     private LocalDate date = LocalDate.now();
     private String comment;
     @ManyToOne
-    @JoinColumn(name="id")
+    @JoinColumn(name="driver", referencedColumnName = "id")
     private UserEntity driver;
 
     public RatingEntity(Long id, int rating, LocalDate date, String comment, UserEntity driver) {
