@@ -25,12 +25,14 @@ public class TakenRideEntity {
 	private RideEntity ride;
 	@Column(name="is_approved")
 	private boolean isApproved;
-	
-	public TakenRideEntity(UserEntity user, RideEntity ride, boolean isApproved) {
-		this.id = new TakenRideId(user.getId(), ride.getId());
+	@Column(name="is_done")
+	private boolean isDone;
+
+	public TakenRideEntity(UserEntity user, RideEntity ride, boolean isApproved, boolean isDone) {
 		this.user = user;
 		this.ride = ride;
 		this.isApproved = isApproved;
+		this.isDone = isDone;
 	}
 
 	@Override

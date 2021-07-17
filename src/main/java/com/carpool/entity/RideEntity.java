@@ -1,6 +1,5 @@
 package com.carpool.entity;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +24,8 @@ public class RideEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name="number_of_passangers")
-    private int numberOfPassangers;
+    @OneToMany(mappedBy = "ride", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TakenRideEntity> passengers = new ArrayList<>();
     private int capacity;
     @Column(name="date_time")
     private LocalDate dateTime = LocalDate.now();
@@ -36,28 +35,24 @@ public class RideEntity {
     @ManyToOne
     @JoinColumn(name="id")
     private AddressEntity to;
+    @Column(name="price_per_percon")
+    private double pricePerPerson;
+    @Column(name="is_carpool")
+    private boolean isCarpool;
     @ManyToOne
     @JoinColumn(name="id")
     private UserEntity driver;
-    @Column(name="is_carpool")
-    private boolean isCarpool;
-    @Column(name="is_done")
-    private boolean isDone;
-    @Column(name="price_per_percon")
-    private BigDecimal pricePerPerson;
-    @OneToMany(mappedBy = "ride", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TakenRideEntity> passengers = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof RideEntity)) return false;
         RideEntity that = (RideEntity) o;
-        return id == that.id && numberOfPassangers == that.numberOfPassangers && capacity == that.capacity && isCarpool == that.isCarpool && isDone == that.isDone;
+        return capacity == that.capacity && Double.compare(that.pricePerPerson, pricePerPerson) == 0 && isCarpool == that.isCarpool && Objects.equals(id, that.id) && Objects.equals(passengers, that.passengers) && Objects.equals(dateTime, that.dateTime) && Objects.equals(from, that.from) && Objects.equals(to, that.to) && Objects.equals(driver, that.driver);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, numberOfPassangers, capacity, dateTime, from, to, driver, isCarpool, isDone, pricePerPerson);
+        return Objects.hash(id, passengers, capacity, dateTime, from, to, pricePerPerson, isCarpool, driver);
     }
 }

@@ -32,21 +32,22 @@ public class UserEntity implements MyEntity{
     @JoinColumn(name="id")
     @Column(name="home_address")
     private AddressEntity homeAddress;
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name="plate_number")
     private CarEntity car;
     @OneToMany
     private List<WorkingTimeEntity> workDays = new ArrayList<WorkingTimeEntity>();
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RatingEntity> ratings = new ArrayList<RatingEntity>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TakenRideEntity> takenRides = new ArrayList<TakenRideEntity>();
     @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RideEntity> drivenRides = new ArrayList<RideEntity>();
 
-    private void addTakenRide(RideEntity ride, boolean isApproved){
-        TakenRideEntity takenRide = new TakenRideEntity(this, ride, isApproved);
+    private void addTakenRide(RideEntity ride, boolean isApproved, boolean isDone){
+        TakenRideEntity takenRide = new TakenRideEntity(this, ride, isApproved, isDone);
         takenRides.add(takenRide);
-        ride
-                .getPassengers().add(takenRide);
+        ride.getPassengers().add(takenRide);
     }
     @Override
     public boolean equals(Object o) {
