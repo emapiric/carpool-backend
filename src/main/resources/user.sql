@@ -1,0 +1,2 @@
+INSERT INTO user(username, full_name, password, phone, email, work_address, home_address, plate_number) values("miapecelj","Mia Pecelj","pass1","066031550","miapecelj@gmail.com",1,2,"BG12345");
+INSERT INTO user(username, full_name, password, phone, email, home_address, plate_number) values("djstarc","Djordje Starcevic","pass1","063514874","djstarcevic@gmail.com",2,"SD12345");

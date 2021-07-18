@@ -1,0 +1,2 @@
+INSERT INTO ride(capacity,date_time, address_from, address_to, price_per_person, is_carpool, driver) values(3,"2021-01-02",1,2,250,false,1);
+INSERT INTO ride(capacity,date_time, address_from, address_to, price_per_person, is_carpool, driver) values(4,"2021-12-12",1,2,300,true,2);

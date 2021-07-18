@@ -9,34 +9,31 @@ import java.util.Objects;
 public class CarEntity implements MyEntity {
     @Id
     @Column(name = "plate_number")
-    private Long id;
+    private String id;
     private String manufacturer;
     private String model;
     private String type;
     @Column(name = "year_of_manufacturing")
     private LocalDate yearOfManufacturing = LocalDate.now();
     private String color;
-    @OneToOne
-    private UserEntity owner;
 
-    public CarEntity(Long id, String manufacturer, String model, String type, LocalDate yearOfManufacturing, String color, UserEntity owner) {
+    public CarEntity(String id, String manufacturer, String model, String type, LocalDate yearOfManufacturing, String color) {
         this.id = id;
         this.manufacturer = manufacturer;
         this.model = model;
         this.type = type;
         this.yearOfManufacturing = yearOfManufacturing;
         this.color = color;
-        this.owner = owner;
     }
 
     public CarEntity() {
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -80,13 +77,6 @@ public class CarEntity implements MyEntity {
         this.color = color;
     }
 
-    public UserEntity getOwner() {
-        return owner;
-    }
-
-    public void setOwner(UserEntity owner) {
-        this.owner = owner;
-    }
 
     @Override
     public String toString() {
@@ -96,8 +86,7 @@ public class CarEntity implements MyEntity {
                 ", model='" + model + '\'' +
                 ", type='" + type + '\'' +
                 ", yearOfManufacturing=" + yearOfManufacturing +
-                ", color='" + color + '\'' +
-                ", owner=" + owner +
+                ", color='" + color+
                 '}';
     }
 
@@ -106,11 +95,11 @@ public class CarEntity implements MyEntity {
         if (this == o) return true;
         if (!(o instanceof CarEntity)) return false;
         CarEntity carEntity = (CarEntity) o;
-        return id == carEntity.id && Objects.equals(manufacturer, carEntity.manufacturer) && Objects.equals(model, carEntity.model) && Objects.equals(type, carEntity.type) && Objects.equals(yearOfManufacturing, carEntity.yearOfManufacturing) && Objects.equals(color, carEntity.color) && Objects.equals(owner, carEntity.owner);
+        return id == carEntity.id && Objects.equals(manufacturer, carEntity.manufacturer) && Objects.equals(model, carEntity.model) && Objects.equals(type, carEntity.type) && Objects.equals(yearOfManufacturing, carEntity.yearOfManufacturing) && Objects.equals(color, carEntity.color);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, manufacturer, model, type, yearOfManufacturing, color, owner);
+        return Objects.hash(id, manufacturer, model, type, yearOfManufacturing, color);
     }
 }
