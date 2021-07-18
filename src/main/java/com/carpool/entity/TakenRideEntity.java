@@ -22,14 +22,7 @@ public class TakenRideEntity {
 	private boolean isDone;
 
 	public TakenRideEntity(UserEntity user, RideEntity ride, boolean isApproved, boolean isDone) {
-		this.user = user;
-		this.ride = ride;
-		this.isApproved = isApproved;
-		this.isDone = isDone;
-	}
-
-	public TakenRideEntity(TakenRideId id, UserEntity user, RideEntity ride, boolean isApproved, boolean isDone) {
-		this.id = id;
+		this.id = new TakenRideId(user.getId(),ride.getId());
 		this.user = user;
 		this.ride = ride;
 		this.isApproved = isApproved;

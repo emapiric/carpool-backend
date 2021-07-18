@@ -3,7 +3,7 @@ package com.carpool.dto;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class WorkingTimeDto {
+public class WorkingTimeDto implements MyDto{
 
     private static final long serialVersionUID = 1L;
     private Long id;

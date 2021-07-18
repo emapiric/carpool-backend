@@ -7,7 +7,7 @@ import java.util.Objects;
 public class CarDto implements MyDto{
 
     private static final long serialVersionUID = 1L;
-    private Long id;
+    private String id;
     @NotNull
     private String manufacturer;
     @NotNull
@@ -21,7 +21,7 @@ public class CarDto implements MyDto{
     @NotNull
     private UserDto owner;
 
-    public CarDto(Long id, String manufacturer, String model, String type, LocalDate yearOfManufacturing, String color, UserDto owner) {
+    public CarDto(String id, String manufacturer, String model, String type, LocalDate yearOfManufacturing, String color, UserDto owner) {
         this.id = id;
         this.manufacturer = manufacturer;
         this.model = model;
@@ -34,11 +34,11 @@ public class CarDto implements MyDto{
     public CarDto() {
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -8,13 +8,13 @@ public class TakenRideDto implements MyDto{
 
     private static final long serialVersionUID = 1L;
     private TakenRideId id;
-    private UserDto user;
-    private RideDto ride;
+    private SimpleUserDto user;
+    private SimpleRideDto ride;
     private boolean isApproved;
     private boolean isDone;
 
-    public TakenRideDto(TakenRideId id, UserDto user, RideDto ride, boolean isApproved, boolean isDone) {
-        this.id = id;
+    public TakenRideDto(SimpleUserDto user, SimpleRideDto ride, boolean isApproved, boolean isDone) {
+        this.id = new TakenRideId(user.getId(),ride.getId());
         this.user = user;
         this.ride = ride;
         this.isApproved = isApproved;
@@ -32,19 +32,19 @@ public class TakenRideDto implements MyDto{
         this.id = id;
     }
 
-    public UserDto getUser() {
+    public SimpleUserDto getUser() {
         return user;
     }
 
-    public void setUser(UserDto user) {
+    public void setUser(SimpleUserDto user) {
         this.user = user;
     }
 
-    public RideDto getRide() {
+    public SimpleRideDto getRide() {
         return ride;
     }
 
-    public void setRide(RideDto ride) {
+    public void setRide(SimpleRideDto ride) {
         this.ride = ride;
     }
 

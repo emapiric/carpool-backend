@@ -2,9 +2,13 @@ package com.carpool.dto;
 
 import java.util.Objects;
 
-public class SimpleUserDto {
+public class SimpleUserDto implements MyDto{
 
-    private Long id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Long id;
     private String username;
     private String email;
     private String password;
