@@ -1,0 +1,1 @@
+INSERT INTO address(street, number, postal_code) VALUES("Krajiskih Brigada", 25, 11300)
