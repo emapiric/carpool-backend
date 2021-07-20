@@ -11,11 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,9 +31,9 @@ public class RideController implements MyDto {
         this.rideService = rideService;
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<List<RideDto>> search() throws Exception {
-        return ResponseEntity.status(HttpStatus.OK).body(rideService.search());
+    @GetMapping("/search/{fromLatitude}/{fromLongtitude}/{toLatitude}/{toLongtitude}")
+    public ResponseEntity<List<RideDto>> search(@PathVariable double fromLatitude, @PathVariable double fromLongtitude,@PathVariable double toLatitude, @PathVariable double toLongtitude) throws Exception {
+        return ResponseEntity.status(HttpStatus.OK).body(rideService.search(fromLatitude,fromLongtitude, toLatitude,toLongtitude));
     }
     
     @GetMapping

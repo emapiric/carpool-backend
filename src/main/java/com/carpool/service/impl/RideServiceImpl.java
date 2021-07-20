@@ -27,16 +27,26 @@ public class RideServiceImpl implements RideService{
     }
 
     @Override
-    public List<RideDto> search() {
-        return null;
+    public List<RideDto> search(double fromLatitude, double fromLongtitude, double toLatitude, double toLongtitude) {
+		return rideRepository
+				.findAll()
+				.stream().filter(entity -> isOnWay(entity, fromLatitude, fromLongtitude, toLatitude, toLongtitude))
+				.map(entity -> rideMapper.toDto(entity)).collect(Collectors.toList());
     }
-    
+
+	private boolean isOnWay(RideEntity entity, double fromLatitude, double fromLongtitude, double toLatitude, double toLongtitude) {
+    	return isNearby(entity.getFrom().getLatitude(),entity.getFrom().getLongtitude(),fromLatitude,fromLongtitude) &&
+				isNearby(entity.getTo().getLatitude(),entity.getTo().getLongtitude(),toLatitude,toLongtitude);
+	}
+
+	private boolean isNearby(double rideLatitude, double rideLongtitude, double searchedLatitude, double searchedLongtitude) {
+		return true;
+	}
+
 	@Override
 	public List<RideDto> findAll() {
 		List<RideEntity> entities = rideRepository.findAll();
-		return entities.stream().map(entity -> {
-			return rideMapper.toDto(entity);
-		}).collect(Collectors.toList());
+		return entities.stream().map(entity -> rideMapper.toDto(entity)).collect(Collectors.toList());
 	}
 
 	@Override

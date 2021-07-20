@@ -14,12 +14,16 @@ public class AddressEntity implements MyEntity{
     @ManyToOne
     @JoinColumn(name="postal_code")
     private CityEntity city;
+    private double latitude;
+    private double longtitude;
 
-    public AddressEntity(Long id, String street, String number, CityEntity city) {
+    public AddressEntity(Long id, String street, String number, CityEntity city, double latitude, double longtitude) {
         this.id = id;
         this.street = street;
         this.number = number;
         this.city = city;
+        this.latitude = latitude;
+        this.longtitude = longtitude;
     }
 
     public AddressEntity() {
@@ -57,6 +61,22 @@ public class AddressEntity implements MyEntity{
         this.city = city;
     }
 
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongtitude() {
+        return longtitude;
+    }
+
+    public void setLongtitude(double longtitude) {
+        this.longtitude = longtitude;
+    }
+
     @Override
     public String toString() {
         return "AddressEntity{" +
@@ -64,6 +84,8 @@ public class AddressEntity implements MyEntity{
                 ", street='" + street + '\'' +
                 ", number='" + number + '\'' +
                 ", city=" + city +
+                ", latitude=" + latitude +
+                ", longtitude=" + longtitude +
                 '}';
     }
 
@@ -72,11 +94,11 @@ public class AddressEntity implements MyEntity{
         if (this == o) return true;
         if (!(o instanceof AddressEntity)) return false;
         AddressEntity that = (AddressEntity) o;
-        return id == that.id && Objects.equals(street, that.street) && Objects.equals(number, that.number) && Objects.equals(city, that.city);
+        return Double.compare(that.latitude, latitude) == 0 && Double.compare(that.longtitude, longtitude) == 0 && Objects.equals(id, that.id) && Objects.equals(street, that.street) && Objects.equals(number, that.number) && Objects.equals(city, that.city);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, street, number, city);
+        return Objects.hash(id, street, number, city, latitude, longtitude);
     }
 }
