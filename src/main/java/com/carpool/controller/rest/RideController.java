@@ -31,9 +31,9 @@ public class RideController implements MyDto {
         this.rideService = rideService;
     }
 
-    @GetMapping("/search/{fromLatitude}/{fromLongtitude}/{toLatitude}/{toLongtitude}")
-    public ResponseEntity<List<RideDto>> search(@PathVariable double fromLatitude, @PathVariable double fromLongtitude,@PathVariable double toLatitude, @PathVariable double toLongtitude) throws Exception {
-        return ResponseEntity.status(HttpStatus.OK).body(rideService.search(fromLatitude,fromLongtitude, toLatitude,toLongtitude));
+    @GetMapping("/search/{fromLat}/{fromLon}/{toLat}/{toLon}")
+    public ResponseEntity<List<RideDto>> search(@PathVariable double fromLat, @PathVariable double fromLon, @PathVariable double toLat, @PathVariable double toLon) throws Exception {
+        return ResponseEntity.status(HttpStatus.OK).body(rideService.search(fromLat, fromLon, toLat, toLon));
     }
     
     @GetMapping
