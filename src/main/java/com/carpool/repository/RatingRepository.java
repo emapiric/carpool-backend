@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.carpool.entity.RatingEntity;
 
 @Repository
-public interface RatingRepostory extends JpaRepository<RatingEntity,Long> {
+public interface RatingRepository extends JpaRepository<RatingEntity,Long> {
 }

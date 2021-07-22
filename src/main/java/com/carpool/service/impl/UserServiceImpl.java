@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,8 +41,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void saveUser(UserDto user) throws Exception {
-		UserEntity existingUser = userRepository.findByUsername(user.getUsername()).get(0);
-		if (existingUser != null) {
+		List<UserEntity> existingUsers = userRepository.findByUsername(user.getUsername());
+		if (existingUsers.size()==0) {
 			userRepository.save(userMapper.toEntity(user));
 		} else
 			throw new Exception("User already exists");

@@ -19,7 +19,6 @@ public class UserDto implements MyDto{
     @NotNull
     @Size(min = 3)
     private String password;
-    @NotNull
     @Size(min = 3)
     private String fullName;
     private String phone;
