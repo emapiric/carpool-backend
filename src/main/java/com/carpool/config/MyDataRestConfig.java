@@ -22,44 +22,44 @@ import com.carpool.entity.WorkingTimeEntity;
 @Configuration
 public class MyDataRestConfig implements RepositoryRestConfigurer {
 	
-	private EntityManager entityManager;
-
-    @Autowired
-    public MyDataRestConfig(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-
-    @Override
-    public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
-    	HttpMethod[] theUnsupportedActions = {HttpMethod.PUT};
-
-
-        disableHttpMethods(AddressEntity.class, config, theUnsupportedActions);
-        disableHttpMethods(CarEntity.class, config, theUnsupportedActions);
-        disableHttpMethods(CityEntity.class, config, theUnsupportedActions);
-        disableHttpMethods(WorkingTimeEntity.class, config, theUnsupportedActions);
-
-        exposeIds(config);
-    }
-    private void disableHttpMethods(Class theClass, RepositoryRestConfiguration config, HttpMethod[] theUnsupportedActions) {
-        config.getExposureConfiguration()
-                .forDomainType(theClass)
-                .withItemExposure((metadata, httpMethods) -> httpMethods.disable(theUnsupportedActions))
-                .withCollectionExposure((metadata, httpMethods) -> httpMethods.disable(theUnsupportedActions));
-    }
-
-    private void exposeIds(RepositoryRestConfiguration config) {
-        Set<EntityType<?>> entities = entityManager.getMetamodel().getEntities();
-
-        List<Class> entityClasses = new ArrayList<>();
-
-        for(EntityType tempEntityType : entities) {
-            entityClasses.add(tempEntityType.getJavaType());
-        }
-
-        Class[] domainTypes = entityClasses.toArray(new Class[0]);
-        config.exposeIdsFor(domainTypes);
-
-    }
+//	private EntityManager entityManager;
+//
+//    @Autowired
+//    public MyDataRestConfig(EntityManager entityManager) {
+//        this.entityManager = entityManager;
+//    }
+//
+//    @Override
+//    public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
+//    	HttpMethod[] theUnsupportedActions = {HttpMethod.PUT};
+//
+//
+//        disableHttpMethods(AddressEntity.class, config, theUnsupportedActions);
+//        disableHttpMethods(CarEntity.class, config, theUnsupportedActions);
+//        disableHttpMethods(CityEntity.class, config, theUnsupportedActions);
+//        disableHttpMethods(WorkingTimeEntity.class, config, theUnsupportedActions);
+//
+//        exposeIds(config);
+//    }
+//    private void disableHttpMethods(Class theClass, RepositoryRestConfiguration config, HttpMethod[] theUnsupportedActions) {
+//        config.getExposureConfiguration()
+//                .forDomainType(theClass)
+//                .withItemExposure((metadata, httpMethods) -> httpMethods.disable(theUnsupportedActions))
+//                .withCollectionExposure((metadata, httpMethods) -> httpMethods.disable(theUnsupportedActions));
+//    }
+//
+//    private void exposeIds(RepositoryRestConfiguration config) {
+//        Set<EntityType<?>> entities = entityManager.getMetamodel().getEntities();
+//
+//        List<Class> entityClasses = new ArrayList<>();
+//
+//        for(EntityType tempEntityType : entities) {
+//            entityClasses.add(tempEntityType.getJavaType());
+//        }
+//
+//        Class[] domainTypes = entityClasses.toArray(new Class[0]);
+//        config.exposeIdsFor(domainTypes);
+//
+//    }
 
 }
