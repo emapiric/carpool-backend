@@ -26,11 +26,11 @@ public class UserDto implements MyDto{
     private AddressDto homeAddress;
     private CarDto car;
     private List<WorkingTimeDto> workDays = new ArrayList<WorkingTimeDto>();
-    private List<SimpleRatingDto> ratings = new ArrayList<SimpleRatingDto>();
+    private List<RatingDto> ratings = new ArrayList<RatingDto>();
     private List<TakenRideDto> takenRides = new ArrayList<TakenRideDto>();
     private List<RideDto> drivenRides = new ArrayList<RideDto>();
 
-    public UserDto(Long id, String username, String email, String password, String fullName, String phone, AddressDto workAddress, AddressDto homeAddress, CarDto car, List<WorkingTimeDto> workDays, List<SimpleRatingDto> ratings, List<TakenRideDto> takenRides, List<RideDto> drivenRides) {
+    public UserDto(Long id, String username, String email, String password, String fullName, String phone, AddressDto workAddress, AddressDto homeAddress, CarDto car, List<WorkingTimeDto> workDays, List<RatingDto> ratings, List<TakenRideDto> takenRides, List<RideDto> drivenRides) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -129,11 +129,11 @@ public class UserDto implements MyDto{
         this.workDays = workDays;
     }
 
-    public List<SimpleRatingDto> getRatings() {
+    public List<RatingDto> getRatings() {
         return ratings;
     }
 
-    public void setRatings(List<SimpleRatingDto> ratings) {
+    public void setRatings(List<RatingDto> ratings) {
         this.ratings = ratings;
     }
 

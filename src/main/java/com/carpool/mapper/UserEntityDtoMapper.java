@@ -1,18 +1,18 @@
 package com.carpool.mapper;
 
-import com.carpool.dto.SimpleRatingDto;
-import com.carpool.dto.TakenRideDto;
-import com.carpool.dto.UserDto;
-import com.carpool.entity.RatingEntity;
-import com.carpool.entity.TakenRideEntity;
-import com.carpool.entity.UserEntity;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.carpool.dto.RatingDto;
+import com.carpool.dto.TakenRideDto;
+import com.carpool.dto.UserDto;
+import com.carpool.entity.RatingEntity;
+import com.carpool.entity.TakenRideEntity;
+import com.carpool.entity.UserEntity;
 
 @Component
 public class UserEntityDtoMapper {
@@ -64,7 +64,7 @@ public class UserEntityDtoMapper {
 		entity.setHomeAddress(addressMapper.toEntity(dto.getHomeAddress()));
 		entity.setWorkAddress(addressMapper.toEntity(dto.getWorkAddress()));
 		entity.setUsername(dto.getUsername());
-		List<SimpleRatingDto> ratings = new ArrayList<>();
+		List<RatingDto> ratings = new ArrayList<>();
 		entity.setRatings(ratings.stream().map(rating -> {
 			return ratingMapper.toEntity(rating);
 		}).collect(Collectors.toList()));
