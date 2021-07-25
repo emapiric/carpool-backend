@@ -21,6 +21,11 @@ public class AddressDto implements MyDto {
         this.longtitude = longtitude;
     }
 
+    public AddressDto(double latitude, double longtitude) {
+        this.latitude = latitude;
+        this.longtitude = longtitude;
+    }
+
     public AddressDto() {
     }
 

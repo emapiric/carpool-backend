@@ -1,6 +1,6 @@
 package com.carpool.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import javax.validation.constraints.Max;
@@ -18,14 +18,14 @@ public class RatingDto implements MyDto{
 	@Positive
 	@Max(5)
     private int rating;
-    private LocalDate date = LocalDate.now();
+    private LocalDateTime date = LocalDateTime.now();
     private String comment;
 	@NotNull
     private SimpleUserDto driver;
     public RatingDto() {
 		// TODO Auto-generated constructor stub
 	}
-	public RatingDto(Long id, int rating, LocalDate date, String comment, SimpleUserDto driver) {
+	public RatingDto(Long id, int rating, LocalDateTime date, String comment, SimpleUserDto driver) {
 		super();
 		this.id = id;
 		this.rating = rating;
@@ -45,10 +45,10 @@ public class RatingDto implements MyDto{
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
-	public LocalDate getDate() {
+	public LocalDateTime getDate() {
 		return date;
 	}
-	public void setDate(LocalDate date) {
+	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
 	public String getComment() {

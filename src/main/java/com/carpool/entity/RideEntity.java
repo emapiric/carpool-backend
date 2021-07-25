@@ -1,6 +1,6 @@
 package com.carpool.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -30,7 +30,7 @@ public class RideEntity {
     private List<TakenRideEntity> passengers = new ArrayList<TakenRideEntity>();
     private int capacity;
     @Column(name="date_time")
-    private LocalDate dateTime = LocalDate.now();
+    private LocalDateTime dateTime = LocalDateTime.now();
     @ManyToOne
     @JoinColumn(name="address_from", referencedColumnName = "id")
     private AddressEntity from;
@@ -45,7 +45,7 @@ public class RideEntity {
     @JoinColumn(name="driver",referencedColumnName = "id")
     private UserEntity driver;
 
-    public RideEntity(Long id, List<TakenRideEntity> passengers, int capacity, LocalDate dateTime, AddressEntity from, AddressEntity to, double pricePerPerson, boolean isCarpool, UserEntity driver) {
+    public RideEntity(Long id, List<TakenRideEntity> passengers, int capacity, LocalDateTime dateTime, AddressEntity from, AddressEntity to, double pricePerPerson, boolean isCarpool, UserEntity driver) {
         this.id = id;
         this.passengers = passengers;
         this.capacity = capacity;
@@ -84,11 +84,11 @@ public class RideEntity {
         this.capacity = capacity;
     }
 
-    public LocalDate getDateTime() {
+    public LocalDateTime getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(LocalDate dateTime) {
+    public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }
 
@@ -158,5 +158,9 @@ public class RideEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, passengers, capacity, dateTime, from, to, pricePerPerson, isCarpool, driver);
+    }
+
+    public boolean hasSpace() {
+        return this.passengers.size() < this.capacity;
     }
 }

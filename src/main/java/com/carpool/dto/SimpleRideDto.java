@@ -1,6 +1,6 @@
 package com.carpool.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class SimpleRideDto implements MyDto {
@@ -8,14 +8,14 @@ public class SimpleRideDto implements MyDto {
 	private static final long serialVersionUID = 1L;
 	private Long id;
 	private int capacity;
-	private LocalDate dateTime = LocalDate.now();
+	private LocalDateTime dateTime = LocalDateTime.now();
 	private AddressDto from;
 	private AddressDto to;
 	private double pricePerPerson;
 	private boolean isCarpool;
 	private SimpleUserDto driver;
 
-	public SimpleRideDto(Long id, int capacity, LocalDate dateTime, AddressDto from, AddressDto to,
+	public SimpleRideDto(Long id, int capacity, LocalDateTime dateTime, AddressDto from, AddressDto to,
 			double pricePerPerson, boolean isCarpool, SimpleUserDto driver) {
 		this.id = id;
 		this.capacity = capacity;
@@ -46,11 +46,11 @@ public class SimpleRideDto implements MyDto {
 		this.capacity = capacity;
 	}
 
-	public LocalDate getDateTime() {
+	public LocalDateTime getDateTime() {
 		return dateTime;
 	}
 
-	public void setDateTime(LocalDate dateTime) {
+	public void setDateTime(LocalDateTime dateTime) {
 		this.dateTime = dateTime;
 	}
 

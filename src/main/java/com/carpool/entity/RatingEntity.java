@@ -2,7 +2,7 @@ package com.carpool.entity;
 
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -12,13 +12,13 @@ public class RatingEntity implements MyEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int rating;
-    private LocalDate date = LocalDate.now();
+    private LocalDateTime date = LocalDateTime.now();
     private String comment;
     @ManyToOne
     @JoinColumn(name="driver", referencedColumnName = "id")
     private UserEntity driver;
 
-    public RatingEntity(Long id, int rating, LocalDate date, String comment, UserEntity driver) {
+    public RatingEntity(Long id, int rating, LocalDateTime date, String comment, UserEntity driver) {
         this.id = id;
         this.rating = rating;
         this.date = date;
@@ -45,11 +45,11 @@ public class RatingEntity implements MyEntity {
         this.rating = rating;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

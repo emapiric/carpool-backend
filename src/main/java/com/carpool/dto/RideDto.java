@@ -3,7 +3,7 @@ package com.carpool.dto;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -15,7 +15,7 @@ public class RideDto implements MyDto{
     @NotNull
     @Positive
     private int capacity;
-    private LocalDate dateTime = LocalDate.now();
+    private LocalDateTime dateTime = LocalDateTime.now();
     @NotNull
     private AddressDto from;
     @NotNull
@@ -27,7 +27,7 @@ public class RideDto implements MyDto{
     @NotNull
     private UserDto driver;
 
-    public RideDto(Long id, List<TakenRideDto> passengers, int capacity, LocalDate dateTime, AddressDto from, AddressDto to, double pricePerPerson, boolean isCarpool, UserDto driver) {
+    public RideDto(Long id, List<TakenRideDto> passengers, int capacity, LocalDateTime dateTime, AddressDto from, AddressDto to, double pricePerPerson, boolean isCarpool, UserDto driver) {
         this.id = id;
         this.passengers = passengers;
         this.capacity = capacity;
@@ -66,11 +66,11 @@ public class RideDto implements MyDto{
         this.capacity = capacity;
     }
 
-    public LocalDate getDateTime() {
+    public LocalDateTime getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(LocalDate dateTime) {
+    public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }
 

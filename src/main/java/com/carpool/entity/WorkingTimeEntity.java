@@ -1,7 +1,7 @@
 package com.carpool.entity;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -13,14 +13,14 @@ public class WorkingTimeEntity implements MyEntity {
 	@Column(name = "day_of_week")
 	private int dayOfWeek;
 	@Column(name = "start_time")
-	private LocalDate startTime = LocalDate.now();
+	private LocalDateTime startTime = LocalDateTime.now();
 	@Column(name = "end_time")
-	private LocalDate endTime = LocalDate.now();
+	private LocalDateTime endTime = LocalDateTime.now();
 	@ManyToOne
 	@JoinColumn(name = "userId", referencedColumnName = "id")
 	private UserEntity user;
 
-	public WorkingTimeEntity(Long id, int dayOfWeek, LocalDate startTime, LocalDate endTime, UserEntity user) {
+	public WorkingTimeEntity(Long id, int dayOfWeek, LocalDateTime startTime, LocalDateTime endTime, UserEntity user) {
 		super();
 		this.id = id;
 		this.dayOfWeek = dayOfWeek;
@@ -48,19 +48,19 @@ public class WorkingTimeEntity implements MyEntity {
 		this.dayOfWeek = dayOfWeek;
 	}
 
-	public LocalDate getStartTime() {
+	public LocalDateTime getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(LocalDate startTime) {
+	public void setStartTime(LocalDateTime startTime) {
 		this.startTime = startTime;
 	}
 
-	public LocalDate getEndTime() {
+	public LocalDateTime getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(LocalDate endTime) {
+	public void setEndTime(LocalDateTime endTime) {
 		this.endTime = endTime;
 	}
 
