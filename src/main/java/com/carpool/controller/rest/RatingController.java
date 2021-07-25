@@ -42,7 +42,7 @@ public class RatingController {
 					String errorMessage = error.getDefaultMessage();
 					errors.put(fieldName, errorMessage);
 				});
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error saving subject " + errors);
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error saving rating " + errors);
 			} else {
 				try {
 					return ResponseEntity.status(HttpStatus.OK).body(ratingService.save(ratingDto));

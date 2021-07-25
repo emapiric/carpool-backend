@@ -28,6 +28,12 @@ public class TakenRideEntity {
 		this.isApproved = isApproved;
 		this.isDone = isDone;
 	}
+	
+	public TakenRideEntity(UserEntity user, RideEntity ride) {
+		this.id = new TakenRideId(user.getId(),ride.getId());
+		this.user = user;
+		this.ride = ride;
+	}
 
 	public TakenRideEntity() {
 	}

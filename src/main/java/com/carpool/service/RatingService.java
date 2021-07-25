@@ -4,6 +4,6 @@ import com.carpool.dto.RatingDto;
 
 public interface RatingService {
 	
-	RatingDto save(RatingDto ratingDto) throws Exception;
+	public RatingDto save(RatingDto ratingDto) throws Exception;
 
 }

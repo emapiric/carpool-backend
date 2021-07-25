@@ -1,6 +1,7 @@
 package com.carpool.entity;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -41,9 +42,9 @@ public class UserEntity implements MyEntity {
 	private List<WorkingTimeEntity> workDays = new ArrayList<WorkingTimeEntity>();
 	@OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<RatingEntity> ratings = new ArrayList<RatingEntity>();
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.MERGE, orphanRemoval = true)
 	private List<TakenRideEntity> takenRides = new ArrayList<TakenRideEntity>();
-	@OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "driver", cascade = CascadeType.MERGE, orphanRemoval = true)
 	private List<RideEntity> drivenRides = new ArrayList<RideEntity>();
 
 	public UserEntity(Long id, String username, String email, String password, String fullName, String phone,
@@ -62,13 +63,6 @@ public class UserEntity implements MyEntity {
 		this.ratings = ratings;
 		this.takenRides = takenRides;
 		this.drivenRides = drivenRides;
-	}
-	
-	@SuppressWarnings("unused")
-	private void addTakenRide(RideEntity ride, boolean isApproved, boolean isDone) {
-		TakenRideEntity takenRide = new TakenRideEntity(this, ride, isApproved, isDone);
-		takenRides.add(takenRide);
-		ride.getPassengers().add(takenRide);
 	}
 
 	public UserEntity() {
@@ -177,13 +171,34 @@ public class UserEntity implements MyEntity {
 	public void setDrivenRides(List<RideEntity> drivenRides) {
 		this.drivenRides = drivenRides;
 	}
+	
+	public void addTakenRide(TakenRideEntity takenRide) throws Exception{
+		if(takenRides.contains(takenRide)) {
+			throw new Exception("Taken ride already exist");
+		}
+		else {
+			takenRides.add(takenRide);
+		}
+	}
+	public void removeTakenRide(RideEntity ride) {
+		for (Iterator<TakenRideEntity> iterator = takenRides.iterator(); iterator.hasNext();) {
+			TakenRideEntity takenRideEntity = iterator.next();
+
+			if (takenRideEntity.getUser().equals(this) && takenRideEntity.getRide().equals(ride)) {
+				iterator.remove();
+				takenRideEntity.getRide().getPassengers().remove(takenRideEntity);
+				takenRideEntity.setUser(null);
+				takenRideEntity.setRide(null);
+			}
+		}
+	}
 
 	@Override
 	public String toString() {
 		return "UserEntity{" + "id=" + id + ", username='" + username + '\'' + ", email='" + email + '\''
 				+ ", password='" + password + '\'' + ", fullName='" + fullName + '\'' + ", phone='" + phone + '\''
 				+ ", workAddress=" + workAddress + ", homeAddress=" + homeAddress + ", car=" + car + ", workDays="
-				+ workDays + ", ratings=" + ratings + ", takenRides=" + takenRides + ", drivenRides=" + drivenRides
+				+ workDays 
 				+ '}';
 	}
 

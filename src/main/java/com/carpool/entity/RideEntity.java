@@ -136,7 +136,6 @@ public class RideEntity {
     public String toString() {
         return "RideEntity{" +
                 "id=" + id +
-                ", passengers=" + passengers +
                 ", capacity=" + capacity +
                 ", dateTime=" + dateTime +
                 ", from=" + from +

@@ -1,5 +1,15 @@
 package com.carpool.service.impl;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.carpool.dto.RideDto;
 import com.carpool.dto.RideRequestDto;
 import com.carpool.entity.RideEntity;
@@ -7,30 +17,20 @@ import com.carpool.mapper.RideEntityDtoMapper;
 import com.carpool.repository.RideRepository;
 import com.carpool.service.HaversineService;
 import com.carpool.service.RideService;
-import org.apache.tomcat.jni.Local;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class RideServiceImpl implements RideService {
 
-    RideRepository rideRepository;
-    RideEntityDtoMapper rideMapper;
+    private RideRepository rideRepository;
+    private RideEntityDtoMapper rideMapper;
+    private HaversineService haversineService;
 
     @Autowired
-    HaversineService haversineService;
-
-    @Autowired
-    public RideServiceImpl(RideRepository rideRepository, RideEntityDtoMapper rideMapper) {
+    public RideServiceImpl(RideRepository rideRepository, RideEntityDtoMapper rideMapper, HaversineService haversineService) {
         this.rideRepository = rideRepository;
         this.rideMapper = rideMapper;
+        this.haversineService = haversineService;
     }
 
     @Override

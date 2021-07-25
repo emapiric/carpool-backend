@@ -1,14 +1,19 @@
 package com.carpool.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class RideRequestDto implements MyDto{
 
-    // Formats output date when this DTO is passed through JSON
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	// Formats output date when this DTO is passed through JSON
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     // Allows dd/MM/yyyy date to be passed into GET request in JSON
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")

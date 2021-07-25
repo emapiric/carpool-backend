@@ -1,59 +1,58 @@
 package com.carpool.controller.rest;
 
-import com.carpool.dto.MyDto;
-import com.carpool.dto.RideDto;
-import com.carpool.dto.RideRequestDto;
-import com.carpool.dto.UserDto;
-import com.carpool.service.RideService;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.*;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.carpool.dto.RideDto;
+import com.carpool.dto.RideRequestDto;
+import com.carpool.service.RideService;
+
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 @RestController
 @RequestMapping("/api/ride")
-public class RideController implements MyDto {
+public class RideController {
 
-    private static final long serialVersionUID = 1L;
-    RideService rideService;
+	private RideService rideService;
 
-    @Autowired
-    public RideController(RideService rideService) {
-        this.rideService = rideService;
-    }
+	@Autowired
+	public RideController(RideService rideService) {
+		this.rideService = rideService;
+	}
 
 	@RequestMapping("search")
-	public ResponseEntity<List<RideDto>> search(RideRequestDto rideRequestDto)  {
+	public ResponseEntity<List<RideDto>> search(RideRequestDto rideRequestDto) {
 		return ResponseEntity.status(HttpStatus.OK).body(rideService.search(rideRequestDto));
 	}
 
-    @GetMapping
-    public ResponseEntity<List<RideDto>> findAll(){
-    	return ResponseEntity.status(HttpStatus.OK).body(rideService.findAll());
-    }
+	@GetMapping
+	public ResponseEntity<List<RideDto>> findAll() {
+		return ResponseEntity.status(HttpStatus.OK).body(rideService.findAll());
+	}
 
 	@GetMapping("findUpcomingByUserId/{userId}")
-	public ResponseEntity<List<RideDto>> findUpcomingByUserId(@PathVariable Long userId){
+	public ResponseEntity<List<RideDto>> findUpcomingByUserId(@PathVariable Long userId) {
 		return ResponseEntity.status(HttpStatus.OK).body(rideService.findUpcomingByUserId(userId));
 	}
-    
-    @PostMapping
-	public @ResponseBody ResponseEntity<Object> save(@Valid @RequestBody RideDto rideDto,
-			BindingResult bindingResult) {
+
+	@PostMapping
+	public @ResponseBody ResponseEntity<Object> save(@Valid @RequestBody RideDto rideDto, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			Map<String, String> errors = new HashMap<>();
 			bindingResult.getAllErrors().forEach((error) -> {
@@ -61,7 +60,7 @@ public class RideController implements MyDto {
 				String errorMessage = error.getDefaultMessage();
 				errors.put(fieldName, errorMessage);
 			});
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error saving subject " + errors);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error saving ride " + errors);
 		} else {
 			try {
 				return ResponseEntity.status(HttpStatus.OK).body(rideService.save(rideDto));
@@ -73,10 +72,10 @@ public class RideController implements MyDto {
 	}
 
 	@DeleteMapping("{id}/delete")
-	public ResponseEntity<Object> deleteRide(@PathVariable int id){
+	public ResponseEntity<Object> deleteRide(@PathVariable int id) {
 		try {
 			rideService.deleteRide(id);
-			//@Todo notify users
+			// @Todo notify users
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Ride not found");
 		}

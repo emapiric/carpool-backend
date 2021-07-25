@@ -3,7 +3,11 @@ package com.carpool.dto;
 import java.util.Objects;
 
 public class AddressRequestDto implements MyDto{
-    private double latitude;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private double latitude;
     private double longtitude;
 
     public AddressRequestDto(double latitude, double longtitude) {

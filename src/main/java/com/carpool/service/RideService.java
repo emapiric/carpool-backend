@@ -1,11 +1,9 @@
 package com.carpool.service;
 
+import java.util.List;
+
 import com.carpool.dto.RideDto;
 import com.carpool.dto.RideRequestDto;
-import com.carpool.dto.TakenRideDto;
-import com.carpool.entity.RideEntity;
-
-import java.util.List;
 
 public interface RideService {
 
