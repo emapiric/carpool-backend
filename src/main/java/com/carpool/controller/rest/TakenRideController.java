@@ -49,8 +49,8 @@ public class TakenRideController {
 	@PutMapping
 	public @ResponseBody ResponseEntity<Object> update(@RequestBody TakenRideDto takenRideDto) {
 		try {
-			Optional<TakenRideDto> exam = takenRideService.update(takenRideDto);
-			if (exam.isPresent()) {
+			Optional<TakenRideDto> takenRide = takenRideService.update(takenRideDto);
+			if (takenRide.isPresent()) {
 				return ResponseEntity.status(HttpStatus.OK).body(takenRideDto);
 			} else {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(takenRideDto);
