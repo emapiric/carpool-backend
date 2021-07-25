@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.carpool.dto.UserDto;
 import com.carpool.service.UserService;
 
-
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -45,7 +44,7 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found");
 
 	}
-	
+
 	@PostMapping("/addRide/{userId}/{rideId}")
 	public @ResponseBody ResponseEntity<Object> addRide(@RequestParam Long userId, @RequestParam Long rideId) {
 		try {
@@ -58,12 +57,12 @@ public class UserController {
 
 	@DeleteMapping("/removeRide/{userId}/{rideId}")
 	public @ResponseBody ResponseEntity<Object> removeRide(@RequestParam Long userId, @RequestParam Long rideId) {
-		try {	
+		try {
 			System.out.println("controller");
 			return ResponseEntity.status(HttpStatus.OK).body(userService.removeRide(userId, rideId));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
-	
+
 }

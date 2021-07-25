@@ -26,10 +26,12 @@ public class UserServiceImpl implements UserService {
 	private RideRepository rideRepository;
 
 	@Autowired
-	public UserServiceImpl(UserRepository userRepository, UserEntityDtoMapper userMapper, RideRepository rideRepository) {
+	public UserServiceImpl(UserRepository userRepository, UserEntityDtoMapper userMapper,
+			RideRepository rideRepository) {
 		this.userRepository = userRepository;
 		this.userMapper = userMapper;
 		this.rideRepository = rideRepository;
+
 	}
 
 	@Override
@@ -47,7 +49,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void saveUser(UserDto user) throws Exception {
 		List<UserEntity> existingUsers = userRepository.findByUsername(user.getUsername());
-		if (existingUsers.size()==0) {
+		if (existingUsers.size() == 0) {
 			userRepository.save(userMapper.toEntity(user));
 		} else
 			throw new Exception("User already exists");
@@ -87,7 +89,5 @@ public class UserServiceImpl implements UserService {
 		userRepository.save(user);
 		return userMapper.toDto(user);
 	}
-
-
 
 }
