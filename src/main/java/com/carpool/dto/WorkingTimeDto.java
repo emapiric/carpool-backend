@@ -1,17 +1,19 @@
 package com.carpool.dto;
 
-import java.time.LocalDateTime;
+import com.carpool.constants.WorkDay;
+
+import java.time.LocalTime;
 import java.util.Objects;
 
 public class WorkingTimeDto implements MyDto{
 
     private static final long serialVersionUID = 1L;
     private Long id;
-    private int dayOfWeek;
-    private LocalDateTime startTime = LocalDateTime.now();
-    private LocalDateTime endTime= LocalDateTime.now();
+    private WorkDay dayOfWeek;
+    private LocalTime startTime = LocalTime.now();
+    private LocalTime endTime= LocalTime.now();
 
-    public WorkingTimeDto(Long id, int dayOfWeek, LocalDateTime startTime, LocalDateTime endTime) {
+    public WorkingTimeDto(Long id, WorkDay dayOfWeek, LocalTime startTime, LocalTime endTime) {
         this.id = id;
         this.dayOfWeek = dayOfWeek;
         this.startTime = startTime;
@@ -29,27 +31,27 @@ public class WorkingTimeDto implements MyDto{
         this.id = id;
     }
 
-    public int getDayOfWeek() {
+    public WorkDay getDayOfWeek() {
         return dayOfWeek;
     }
 
-    public void setDayOfWeek(int dayOfWeek) {
+    public void setDayOfWeek(WorkDay dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
     }
 
-    public LocalDateTime getStartTime() {
+    public LocalTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public LocalTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
 

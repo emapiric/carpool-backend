@@ -27,6 +27,11 @@ public class RideRequestDto implements MyDto{
         this.to = to;
     }
 
+    public RideRequestDto(AddressRequestDto from, AddressRequestDto to) {
+        this.from = from;
+        this.to = to;
+    }
+
     public RideRequestDto() {
     }
 

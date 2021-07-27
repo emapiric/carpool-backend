@@ -1,5 +1,7 @@
 package com.carpool.service.impl;
 
+import com.carpool.dto.RideRequestDto;
+import com.carpool.entity.RideEntity;
 import com.carpool.service.HaversineService;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +25,19 @@ public class HaversineServiceImpl implements HaversineService {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         double distance = R * c;
         return distance;
+    }
+
+    @Override
+    public boolean isOnWay(RideEntity ride, RideRequestDto rideRequest) {
+        return this.calculateDistance(
+                ride.getFrom().getLatitude(),
+                ride.getFrom().getLongtitude(),
+                rideRequest.getFrom().getLatitude(),
+                rideRequest.getFrom().getLongtitude()) < 1 &&
+                this.calculateDistance(
+                        ride.getTo().getLatitude(),
+                        ride.getTo().getLongtitude(),
+                        rideRequest.getTo().getLatitude(),
+                        rideRequest.getTo().getLongtitude()) < 1;
     }
 }

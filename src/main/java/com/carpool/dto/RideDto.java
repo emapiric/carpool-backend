@@ -23,11 +23,11 @@ public class RideDto implements MyDto{
     @NotNull
     @Positive
     private double pricePerPerson;
-    private boolean isCarpool;
+    private CarpoolDto carpool;
     @NotNull
     private UserDto driver;
 
-    public RideDto(Long id, List<TakenRideDto> passengers, int capacity, LocalDateTime dateTime, AddressDto from, AddressDto to, double pricePerPerson, boolean isCarpool, UserDto driver) {
+    public RideDto(Long id, List<TakenRideDto> passengers, int capacity, LocalDateTime dateTime, AddressDto from, AddressDto to, double pricePerPerson, CarpoolDto carpool, UserDto driver) {
         this.id = id;
         this.passengers = passengers;
         this.capacity = capacity;
@@ -35,7 +35,7 @@ public class RideDto implements MyDto{
         this.from = from;
         this.to = to;
         this.pricePerPerson = pricePerPerson;
-        this.isCarpool = isCarpool;
+        this.carpool = carpool;
         this.driver = driver;
     }
 
@@ -98,12 +98,12 @@ public class RideDto implements MyDto{
         this.pricePerPerson = pricePerPerson;
     }
 
-    public boolean isCarpool() {
-        return isCarpool;
+    public CarpoolDto carpool() {
+        return carpool;
     }
 
-    public void setCarpool(boolean carpool) {
-        isCarpool = carpool;
+    public void setCarpool(CarpoolDto carpool) {
+        carpool = carpool;
     }
 
     public UserDto getDriver() {
@@ -124,7 +124,7 @@ public class RideDto implements MyDto{
                 ", from=" + from +
                 ", to=" + to +
                 ", pricePerPerson=" + pricePerPerson +
-                ", isCarpool=" + isCarpool +
+                ", carpool=" + carpool +
                 ", driver=" + driver +
                 '}';
     }
@@ -132,13 +132,13 @@ public class RideDto implements MyDto{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof RideDto)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         RideDto rideDto = (RideDto) o;
-        return capacity == rideDto.capacity && Double.compare(rideDto.pricePerPerson, pricePerPerson) == 0 && isCarpool == rideDto.isCarpool && Objects.equals(id, rideDto.id) && Objects.equals(passengers, rideDto.passengers) && Objects.equals(dateTime, rideDto.dateTime) && Objects.equals(from, rideDto.from) && Objects.equals(to, rideDto.to) && Objects.equals(driver, rideDto.driver);
+        return capacity == rideDto.capacity && Double.compare(rideDto.pricePerPerson, pricePerPerson) == 0 && Objects.equals(id, rideDto.id) && Objects.equals(passengers, rideDto.passengers) && Objects.equals(dateTime, rideDto.dateTime) && Objects.equals(from, rideDto.from) && Objects.equals(to, rideDto.to) && Objects.equals(carpool, rideDto.carpool) && Objects.equals(driver, rideDto.driver);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, passengers, capacity, dateTime, from, to, pricePerPerson, isCarpool, driver);
+        return Objects.hash(id, passengers, capacity, dateTime, from, to, pricePerPerson, carpool, driver);
     }
 }

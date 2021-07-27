@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NaturalIdCache;
@@ -39,13 +40,14 @@ public class RideEntity {
     private AddressEntity to;
     @Column(name="price_per_person")
     private double pricePerPerson;
-    @Column(name="is_carpool")
-    private boolean isCarpool;
+    @OneToOne
+    @JoinColumn(name="carpool_id", referencedColumnName = "id")
+    private CarpoolEntity carpool;
     @ManyToOne
     @JoinColumn(name="driver",referencedColumnName = "id")
     private UserEntity driver;
 
-    public RideEntity(Long id, List<TakenRideEntity> passengers, int capacity, LocalDateTime dateTime, AddressEntity from, AddressEntity to, double pricePerPerson, boolean isCarpool, UserEntity driver) {
+    public RideEntity(Long id, List<TakenRideEntity> passengers, int capacity, LocalDateTime dateTime, AddressEntity from, AddressEntity to, double pricePerPerson, CarpoolEntity carpool, UserEntity driver) {
         this.id = id;
         this.passengers = passengers;
         this.capacity = capacity;
@@ -53,7 +55,7 @@ public class RideEntity {
         this.from = from;
         this.to = to;
         this.pricePerPerson = pricePerPerson;
-        this.isCarpool = isCarpool;
+        this.carpool = carpool;
         this.driver = driver;
     }
 
@@ -116,12 +118,12 @@ public class RideEntity {
         this.pricePerPerson = pricePerPerson;
     }
 
-    public boolean isCarpool() {
-        return isCarpool;
+    public CarpoolEntity carpool() {
+        return carpool;
     }
 
-    public void setCarpool(boolean carpool) {
-        isCarpool = carpool;
+    public void setCarpool(CarpoolEntity carpool) {
+        carpool = carpool;
     }
 
     public UserEntity getDriver() {
@@ -141,7 +143,7 @@ public class RideEntity {
                 ", from=" + from +
                 ", to=" + to +
                 ", pricePerPerson=" + pricePerPerson +
-                ", isCarpool=" + isCarpool +
+                ", carpool=" + carpool +
                 ", driver=" + driver +
                 '}';
     }
@@ -149,14 +151,14 @@ public class RideEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof RideEntity)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         RideEntity that = (RideEntity) o;
-        return capacity == that.capacity && Double.compare(that.pricePerPerson, pricePerPerson) == 0 && isCarpool == that.isCarpool && Objects.equals(id, that.id) && Objects.equals(passengers, that.passengers) && Objects.equals(dateTime, that.dateTime) && Objects.equals(from, that.from) && Objects.equals(to, that.to) && Objects.equals(driver, that.driver);
+        return capacity == that.capacity && Double.compare(that.pricePerPerson, pricePerPerson) == 0 && Objects.equals(id, that.id) && Objects.equals(passengers, that.passengers) && Objects.equals(dateTime, that.dateTime) && Objects.equals(from, that.from) && Objects.equals(to, that.to) && Objects.equals(carpool, that.carpool) && Objects.equals(driver, that.driver);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, passengers, capacity, dateTime, from, to, pricePerPerson, isCarpool, driver);
+        return Objects.hash(id, passengers, capacity, dateTime, from, to, pricePerPerson, carpool, driver);
     }
 
     public boolean hasSpace() {

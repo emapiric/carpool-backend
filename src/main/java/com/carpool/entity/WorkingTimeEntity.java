@@ -1,7 +1,9 @@
 package com.carpool.entity;
 
+import com.carpool.constants.WorkDay;
+
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Objects;
 
 @Entity
@@ -11,16 +13,17 @@ public class WorkingTimeEntity implements MyEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(name = "day_of_week")
-	private int dayOfWeek;
+	@Enumerated
+	private WorkDay dayOfWeek;
 	@Column(name = "start_time")
-	private LocalDateTime startTime = LocalDateTime.now();
+	private LocalTime startTime = LocalTime.now();
 	@Column(name = "end_time")
-	private LocalDateTime endTime = LocalDateTime.now();
+	private LocalTime endTime = LocalTime.now();
 	@ManyToOne
 	@JoinColumn(name = "userId", referencedColumnName = "id")
 	private UserEntity user;
 
-	public WorkingTimeEntity(Long id, int dayOfWeek, LocalDateTime startTime, LocalDateTime endTime, UserEntity user) {
+	public WorkingTimeEntity(Long id, WorkDay dayOfWeek, LocalTime startTime, LocalTime endTime, UserEntity user) {
 		super();
 		this.id = id;
 		this.dayOfWeek = dayOfWeek;
@@ -40,27 +43,27 @@ public class WorkingTimeEntity implements MyEntity {
 		this.id = id;
 	}
 
-	public int getDayOfWeek() {
+	public WorkDay getDayOfWeek() {
 		return dayOfWeek;
 	}
 
-	public void setDayOfWeek(int dayOfWeek) {
+	public void setDayOfWeek(WorkDay dayOfWeek) {
 		this.dayOfWeek = dayOfWeek;
 	}
 
-	public LocalDateTime getStartTime() {
+	public LocalTime getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(LocalDateTime startTime) {
+	public void setStartTime(LocalTime startTime) {
 		this.startTime = startTime;
 	}
 
-	public LocalDateTime getEndTime() {
+	public LocalTime getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(LocalDateTime endTime) {
+	public void setEndTime(LocalTime endTime) {
 		this.endTime = endTime;
 	}
 

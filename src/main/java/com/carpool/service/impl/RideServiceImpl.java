@@ -37,23 +37,10 @@ public class RideServiceImpl implements RideService {
     public List<RideDto> search(RideRequestDto rideRequest) {
         return rideRepository
                 .findAll()
-                .stream().filter(ride -> isOnWay(ride, rideRequest) &&
+                .stream().filter(ride -> haversineService.isOnWay(ride, rideRequest) &&
                         isLaterToday(ride.getDateTime(), rideRequest.getDateTime()) &&
                         ride.hasSpace())
                 .map(ride -> rideMapper.toDto(ride)).collect(Collectors.toList());
-    }
-
-    private boolean isOnWay(RideEntity ride, RideRequestDto rideRequest) {
-        return haversineService.calculateDistance(
-                ride.getFrom().getLatitude(),
-                ride.getFrom().getLongtitude(),
-                rideRequest.getFrom().getLatitude(),
-                rideRequest.getFrom().getLongtitude()) < 1 &&
-                haversineService.calculateDistance(
-                        ride.getTo().getLatitude(),
-                        ride.getTo().getLongtitude(),
-                        rideRequest.getTo().getLatitude(),
-                        rideRequest.getTo().getLongtitude()) < 1;
     }
 
     private boolean isLaterToday(LocalDateTime rideTime, LocalDateTime rideRequestTime) {
