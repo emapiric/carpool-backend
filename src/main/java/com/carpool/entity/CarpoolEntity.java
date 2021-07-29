@@ -16,10 +16,10 @@ public class CarpoolEntity implements MyEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name="ride_to_id", referencedColumnName = "id")
     private RideEntity rideTo;
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name="ride_back_id", referencedColumnName = "id")
     private RideEntity rideBack;
 
     public CarpoolEntity(Long id, RideEntity rideTo, RideEntity rideBack) {
