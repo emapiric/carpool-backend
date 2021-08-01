@@ -1,5 +1,15 @@
 package com.carpool.service.impl;
 
+import static java.time.temporal.ChronoUnit.MINUTES;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.carpool.constants.WorkDay;
 import com.carpool.dto.CarpoolDto;
 import com.carpool.dto.CarpoolRequestDto;
@@ -11,16 +21,6 @@ import com.carpool.mapper.CarpoolEntityDtoMapper;
 import com.carpool.repository.CarpoolRepository;
 import com.carpool.service.CarpoolService;
 import com.carpool.service.HaversineService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static java.time.temporal.ChronoUnit.MINUTES;
 
 @Service
 @Transactional

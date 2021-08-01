@@ -7,7 +7,6 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.metamodel.EntityType;
 
-import com.carpool.entity.RideEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -15,10 +14,7 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
-import com.carpool.entity.AddressEntity;
-import com.carpool.entity.CarEntity;
-import com.carpool.entity.CityEntity;
-import com.carpool.entity.WorkingTimeEntity;
+import com.carpool.entity.RideEntity;
 
 @Configuration
 public class MyDataRestConfig implements RepositoryRestConfigurer {

@@ -4,7 +4,11 @@ import java.util.List;
 import java.util.Objects;
 
 public class CarpoolRequestDto implements MyDto{
-    private AddressRequestDto homeAddress;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private AddressRequestDto homeAddress;
     private AddressRequestDto workAddress;
     private List<WorkingTimeDto> workingTimeList;
 

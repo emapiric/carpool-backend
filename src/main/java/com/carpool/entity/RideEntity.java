@@ -123,7 +123,7 @@ public class RideEntity {
     }
 
     public void setCarpool(CarpoolEntity carpool) {
-        carpool = carpool;
+        this.carpool = carpool;
     }
 
     public UserEntity getDriver() {
