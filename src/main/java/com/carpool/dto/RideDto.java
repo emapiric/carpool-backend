@@ -103,7 +103,7 @@ public class RideDto implements MyDto{
     }
 
     public void setCarpool(CarpoolDto carpool) {
-        carpool = carpool;
+        this.carpool = carpool;
     }
 
     public UserDto getDriver() {

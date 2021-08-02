@@ -83,7 +83,7 @@ public class SimpleRideDto implements MyDto {
 	}
 
 	public void setCarpool(CarpoolDto carpool) {
-		carpool = carpool;
+		this.carpool = carpool;
 	}
 
 	public SimpleUserDto getDriver() {

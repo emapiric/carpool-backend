@@ -42,6 +42,7 @@ public class UserEntityDtoMapper {
 		dto.setHomeAddress(addressMapper.toDto(entity.getHomeAddress()));
 		dto.setWorkAddress(addressMapper.toDto(entity.getWorkAddress()));
 		dto.setUsername(entity.getUsername());
+		dto.setProvider(entity.getProvider());
 		List<RatingEntity> ratings = new ArrayList<>();
 		dto.setRatings(ratings.stream().map(rating -> {
 			return ratingMapper.toDto(rating);
@@ -64,6 +65,7 @@ public class UserEntityDtoMapper {
 		entity.setHomeAddress(addressMapper.toEntity(dto.getHomeAddress()));
 		entity.setWorkAddress(addressMapper.toEntity(dto.getWorkAddress()));
 		entity.setUsername(dto.getUsername());
+		entity.setProvider(dto.getProvider());
 		List<RatingDto> ratings = new ArrayList<>();
 		entity.setRatings(ratings.stream().map(rating -> {
 			return ratingMapper.toEntity(rating);

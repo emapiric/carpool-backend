@@ -17,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.carpool.util.Provider;
+
 @Entity
 @Table(name = "user")
 public class UserEntity implements MyEntity {
@@ -46,10 +48,15 @@ public class UserEntity implements MyEntity {
 	private List<TakenRideEntity> takenRides = new ArrayList<TakenRideEntity>();
 	@OneToMany(mappedBy = "driver", cascade = CascadeType.MERGE, orphanRemoval = true)
 	private List<RideEntity> drivenRides = new ArrayList<RideEntity>();
+	private Boolean enabled;
+	private Provider provider;
+	private String confirmationToken;
+	private String resetPasswordToken;
 
 	public UserEntity(Long id, String username, String email, String password, String fullName, String phone,
 			AddressEntity workAddress, AddressEntity homeAddress, CarEntity car, List<WorkingTimeEntity> workDays,
-			List<RatingEntity> ratings, List<TakenRideEntity> takenRides, List<RideEntity> drivenRides) {
+			List<RatingEntity> ratings, List<TakenRideEntity> takenRides, List<RideEntity> drivenRides, Boolean enabled,
+			Provider provider, String confirmationToken, String forgotPasswordToken) {
 		this.id = id;
 		this.username = username;
 		this.email = email;
@@ -63,13 +70,49 @@ public class UserEntity implements MyEntity {
 		this.ratings = ratings;
 		this.takenRides = takenRides;
 		this.drivenRides = drivenRides;
+		this.enabled = enabled;
+		this.provider = provider;
+		this.confirmationToken = confirmationToken;
+		this.resetPasswordToken = forgotPasswordToken;
 	}
 
 	public UserEntity() {
 	}
 
+	public String getConfirmationToken() {
+		return confirmationToken;
+	}
+
+	public void setConfirmationToken(String confirmationToken) {
+		this.confirmationToken = confirmationToken;
+	}
+
+	public String getForgotPasswordToken() {
+		return resetPasswordToken;
+	}
+
+	public void setForgotPasswordToken(String forgotPasswordToken) {
+		this.resetPasswordToken = forgotPasswordToken;
+	}
+
+	public Provider getProvider() {
+		return provider;
+	}
+
+	public void setProvider(Provider provider) {
+		this.provider = provider;
+	}
+
 	public Long getId() {
 		return id;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	public void setId(Long id) {
@@ -171,15 +214,15 @@ public class UserEntity implements MyEntity {
 	public void setDrivenRides(List<RideEntity> drivenRides) {
 		this.drivenRides = drivenRides;
 	}
-	
-	public void addTakenRide(TakenRideEntity takenRide) throws Exception{
-		if(takenRides.contains(takenRide)) {
+
+	public void addTakenRide(TakenRideEntity takenRide) throws Exception {
+		if (takenRides.contains(takenRide)) {
 			throw new Exception("Taken ride already exist");
-		}
-		else {
+		} else {
 			takenRides.add(takenRide);
 		}
 	}
+
 	public void removeTakenRide(RideEntity ride) {
 		for (Iterator<TakenRideEntity> iterator = takenRides.iterator(); iterator.hasNext();) {
 			TakenRideEntity takenRideEntity = iterator.next();
@@ -198,8 +241,7 @@ public class UserEntity implements MyEntity {
 		return "UserEntity{" + "id=" + id + ", username='" + username + '\'' + ", email='" + email + '\''
 				+ ", password='" + password + '\'' + ", fullName='" + fullName + '\'' + ", phone='" + phone + '\''
 				+ ", workAddress=" + workAddress + ", homeAddress=" + homeAddress + ", car=" + car + ", workDays="
-				+ workDays 
-				+ '}';
+				+ workDays + '}';
 	}
 
 	@Override

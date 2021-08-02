@@ -3,185 +3,210 @@ package com.carpool.dto;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import com.carpool.util.Provider;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class UserDto implements MyDto{
+public class UserDto implements MyDto {
 
-    private static final long serialVersionUID = 1L;
-    private Long id;
-    @NotNull
-    @Size(min = 3)
-    private String username;
-    @Pattern(regexp = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")
-    private String email;
-    @NotNull
-    @Size(min = 3)
-    private String password;
-    @Size(min = 3)
-    private String fullName;
-    private String phone;
-    private AddressDto workAddress;
-    private AddressDto homeAddress;
-    private CarDto car;
-    private List<WorkingTimeDto> workDays = new ArrayList<WorkingTimeDto>();
-    private List<RatingDto> ratings = new ArrayList<RatingDto>();
-    private List<TakenRideDto> takenRides = new ArrayList<TakenRideDto>();
-    private List<RideDto> drivenRides = new ArrayList<RideDto>();
+	private static final long serialVersionUID = 1L;
+	private Long id;
+	@NotNull
+	@Size(min = 3)
+	private String username;
+	@Pattern(regexp = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")
+	private String email;
+	@NotNull
+	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=\\S+$).{8,}$")
+	private String password;
+	@Size(min = 3)
+	private String fullName;
+	private String phone;
+	private AddressDto workAddress;
+	private AddressDto homeAddress;
+	private CarDto car;
+	private List<WorkingTimeDto> workDays = new ArrayList<WorkingTimeDto>();
+	private List<RatingDto> ratings = new ArrayList<RatingDto>();
+	private List<TakenRideDto> takenRides = new ArrayList<TakenRideDto>();
+	private List<RideDto> drivenRides = new ArrayList<RideDto>();
+	private Boolean enabled;
+	private Provider provider;
 
-    public UserDto(Long id, String username, String email, String password, String fullName, String phone, AddressDto workAddress, AddressDto homeAddress, CarDto car, List<WorkingTimeDto> workDays, List<RatingDto> ratings, List<TakenRideDto> takenRides, List<RideDto> drivenRides) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.fullName = fullName;
-        this.phone = phone;
-        this.workAddress = workAddress;
-        this.homeAddress = homeAddress;
-        this.car = car;
-        this.workDays = workDays;
-        this.ratings = ratings;
-        this.takenRides = takenRides;
-        this.drivenRides = drivenRides;
-    }
+	public UserDto(Long id, String username, String email, String password, String fullName, String phone,
+			AddressDto workAddress, AddressDto homeAddress, CarDto car, List<WorkingTimeDto> workDays,
+			List<RatingDto> ratings, List<TakenRideDto> takenRides, List<RideDto> drivenRides, Boolean enabled,
+			Provider provider) {
+		this.id = id;
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.fullName = fullName;
+		this.phone = phone;
+		this.workAddress = workAddress;
+		this.homeAddress = homeAddress;
+		this.car = car;
+		this.workDays = workDays;
+		this.ratings = ratings;
+		this.takenRides = takenRides;
+		this.drivenRides = drivenRides;
+		this.enabled = enabled;
+		this.provider = provider;
+	}
 
-    public UserDto() {
-    }
+	public UserDto() {
+	}
 
-    public Long getId() {
-        return id;
-    }
+	
+	public Provider getProvider() {
+		return provider;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setProvider(Provider provider) {
+		this.provider = provider;
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	public Boolean getEnabled() {
+		return enabled;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public String getFullName() {
-        return fullName;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public String getPhone() {
-        return phone;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public AddressDto getWorkAddress() {
-        return workAddress;
-    }
+	public String getFullName() {
+		return fullName;
+	}
 
-    public void setWorkAddress(AddressDto workAddress) {
-        this.workAddress = workAddress;
-    }
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
 
-    public AddressDto getHomeAddress() {
-        return homeAddress;
-    }
+	public String getPhone() {
+		return phone;
+	}
 
-    public void setHomeAddress(AddressDto homeAddress) {
-        this.homeAddress = homeAddress;
-    }
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 
-    public CarDto getCar() {
-        return car;
-    }
+	public AddressDto getWorkAddress() {
+		return workAddress;
+	}
 
-    public void setCar(CarDto car) {
-        this.car = car;
-    }
+	public void setWorkAddress(AddressDto workAddress) {
+		this.workAddress = workAddress;
+	}
 
-    public List<WorkingTimeDto> getWorkDays() {
-        return workDays;
-    }
+	public AddressDto getHomeAddress() {
+		return homeAddress;
+	}
 
-    public void setWorkDays(List<WorkingTimeDto> workDays) {
-        this.workDays = workDays;
-    }
+	public void setHomeAddress(AddressDto homeAddress) {
+		this.homeAddress = homeAddress;
+	}
 
-    public List<RatingDto> getRatings() {
-        return ratings;
-    }
+	public CarDto getCar() {
+		return car;
+	}
 
-    public void setRatings(List<RatingDto> ratings) {
-        this.ratings = ratings;
-    }
+	public void setCar(CarDto car) {
+		this.car = car;
+	}
 
-    public List<TakenRideDto> getTakenRides() {
-        return takenRides;
-    }
+	public List<WorkingTimeDto> getWorkDays() {
+		return workDays;
+	}
 
-    public void setTakenRides(List<TakenRideDto> takenRides) {
-        this.takenRides = takenRides;
-    }
+	public void setWorkDays(List<WorkingTimeDto> workDays) {
+		this.workDays = workDays;
+	}
 
-    public List<RideDto> getDrivenRides() {
-        return drivenRides;
-    }
+	public List<RatingDto> getRatings() {
+		return ratings;
+	}
 
-    public void setDrivenRides(List<RideDto> drivenRides) {
-        this.drivenRides = drivenRides;
-    }
+	public void setRatings(List<RatingDto> ratings) {
+		this.ratings = ratings;
+	}
 
-    @Override
-    public String toString() {
-        return "UserDto{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", fullName='" + fullName + '\'' +
-                ", phone='" + phone + '\'' +
-                ", workAddress=" + workAddress +
-                ", homeAddress=" + homeAddress +
-                ", car=" + car +
-                ", workDays=" + workDays +
-                ", ratings=" + ratings +
-                ", takenRides=" + takenRides +
-                ", drivenRides=" + drivenRides +
-                '}';
-    }
+	public List<TakenRideDto> getTakenRides() {
+		return takenRides;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof UserDto)) return false;
-        UserDto userDto = (UserDto) o;
-        return Objects.equals(id, userDto.id) && Objects.equals(username, userDto.username) && Objects.equals(email, userDto.email) && Objects.equals(password, userDto.password) && Objects.equals(fullName, userDto.fullName) && Objects.equals(phone, userDto.phone) && Objects.equals(workAddress, userDto.workAddress) && Objects.equals(homeAddress, userDto.homeAddress) && Objects.equals(car, userDto.car) && Objects.equals(workDays, userDto.workDays) && Objects.equals(ratings, userDto.ratings) && Objects.equals(takenRides, userDto.takenRides) && Objects.equals(drivenRides, userDto.drivenRides);
-    }
+	public void setTakenRides(List<TakenRideDto> takenRides) {
+		this.takenRides = takenRides;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, username, email, password, fullName, phone, workAddress, homeAddress, car, workDays, ratings, takenRides, drivenRides);
-    }
+	public List<RideDto> getDrivenRides() {
+		return drivenRides;
+	}
+
+	public void setDrivenRides(List<RideDto> drivenRides) {
+		this.drivenRides = drivenRides;
+	}
+
+	@Override
+	public String toString() {
+		return "UserDto{" + "id=" + id + ", username='" + username + '\'' + ", email='" + email + '\'' + ", password='"
+				+ password + '\'' + ", fullName='" + fullName + '\'' + ", phone='" + phone + '\'' + ", workAddress="
+				+ workAddress + ", homeAddress=" + homeAddress + ", car=" + car + ", workDays=" + workDays
+				+ ", ratings=" + ratings + ", takenRides=" + takenRides + ", drivenRides=" + drivenRides + '}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (!(o instanceof UserDto))
+			return false;
+		UserDto userDto = (UserDto) o;
+		return Objects.equals(id, userDto.id) && Objects.equals(username, userDto.username)
+				&& Objects.equals(email, userDto.email) && Objects.equals(password, userDto.password)
+				&& Objects.equals(fullName, userDto.fullName) && Objects.equals(phone, userDto.phone)
+				&& Objects.equals(workAddress, userDto.workAddress) && Objects.equals(homeAddress, userDto.homeAddress)
+				&& Objects.equals(car, userDto.car) && Objects.equals(workDays, userDto.workDays)
+				&& Objects.equals(ratings, userDto.ratings) && Objects.equals(takenRides, userDto.takenRides)
+				&& Objects.equals(drivenRides, userDto.drivenRides);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, username, email, password, fullName, phone, workAddress, homeAddress, car, workDays,
+				ratings, takenRides, drivenRides);
+	}
 }
