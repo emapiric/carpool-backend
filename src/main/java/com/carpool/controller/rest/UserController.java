@@ -35,7 +35,7 @@ public class UserController {
 
 	}
 
-	@PostMapping("/users/login")
+	@PostMapping("login")
 	public ResponseEntity<Object> loginUser(@RequestBody UserDto user) {
 		UserDto existingUser = userService.findUserByUsername(user.getUsername(), user.getPassword());
 		if (existingUser != null) {
