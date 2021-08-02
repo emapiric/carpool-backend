@@ -9,7 +9,7 @@ import com.carpool.entity.RideEntity;
 import com.carpool.entity.TakenRideEntity;
 import com.carpool.entity.UserEntity;
 
-@RepositoryRestResource(collectionResourceRel = "takenRide", path="takenRide")
+@RepositoryRestResource(collectionResourceRel = "takenRide", path="takenRides")
 public interface TakenRideRepository extends JpaRepository<TakenRideEntity,Long> {
 
 	List<TakenRideEntity> findByUserAndRide(UserEntity user, RideEntity ride);

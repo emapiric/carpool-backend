@@ -51,25 +51,25 @@ public class RideController {
 		return ResponseEntity.status(HttpStatus.OK).body(rideService.findUpcomingByUserId(userId));
 	}
 
-	@PostMapping
-	public @ResponseBody ResponseEntity<Object> save(@Valid @RequestBody RideDto rideDto, BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			Map<String, String> errors = new HashMap<>();
-			bindingResult.getAllErrors().forEach((error) -> {
-				String fieldName = ((FieldError) error).getField();
-				String errorMessage = error.getDefaultMessage();
-				errors.put(fieldName, errorMessage);
-			});
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error saving ride " + errors);
-		} else {
-			try {
-				return ResponseEntity.status(HttpStatus.OK).body(rideService.save(rideDto));
-			} catch (Exception e) {
-				e.printStackTrace();
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-			}
-		}
-	}
+//	@PostMapping
+//	public @ResponseBody ResponseEntity<Object> save(@Valid @RequestBody RideDto rideDto, BindingResult bindingResult) {
+//		if (bindingResult.hasErrors()) {
+//			Map<String, String> errors = new HashMap<>();
+//			bindingResult.getAllErrors().forEach((error) -> {
+//				String fieldName = ((FieldError) error).getField();
+//				String errorMessage = error.getDefaultMessage();
+//				errors.put(fieldName, errorMessage);
+//			});
+//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error saving ride " + errors);
+//		} else {
+//			try {
+//				return ResponseEntity.status(HttpStatus.OK).body(rideService.save(rideDto));
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//			}
+//		}
+//	}
 
 	@DeleteMapping("{id}/delete")
 	public ResponseEntity<Object> deleteRide(@PathVariable int id) {
