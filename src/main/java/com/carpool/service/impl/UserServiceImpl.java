@@ -70,11 +70,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDto removeRide(Long userId, Long rideId) throws Exception {
 		Optional<UserEntity> userEntityOptional = userRepository.findById(userId);
-		if (userEntityOptional.isEmpty()) {
+		if (!userEntityOptional.isPresent()) {
 			throw new Exception("user does not exist");
 		}
 		Optional<RideEntity> rideEntityOptional = rideRepository.findById(rideId);
-		if (!rideEntityOptional.isEmpty()) {
+		if (!rideEntityOptional.isPresent()) {
 			throw new Exception("ride does not exist");
 		}
 		RideEntity ride = rideEntityOptional.get();
@@ -87,11 +87,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDto addRide(Long userId, Long rideId) throws Exception {
 		Optional<UserEntity> userEntityOptional = userRepository.findById(userId);
-		if (userEntityOptional.isEmpty()) {
+		if (!userEntityOptional.isPresent()) {
 			throw new Exception("user does not exist");
 		}
 		Optional<RideEntity> rideEntityOptional = rideRepository.findById(rideId);
-		if (rideEntityOptional.isEmpty()) {
+		if (!rideEntityOptional.isPresent()) {
 			throw new Exception("ride does not exist");
 		}
 
@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserService {
 			throw new Exception("Email is already taken");
 		} else {
 			String confirmationToken = jwtUtil.generateTokenFromString(user.getEmail());
-			if (existingUser.isEmpty()) {
+			if (!existingUser.isPresent()) {
 				user.setEnabled(false);
 				user.setPassword(passwordEncoder.encode(user.getPassword()));
 				UserEntity userEntity = userMapper.toEntity(user);
@@ -162,7 +162,7 @@ public class UserServiceImpl implements UserService {
 	public String resetPassword(String token) {
 		Optional<UserEntity> user = userRepository.findByResetPasswordToken(token);
 
-		if (user.isEmpty()) {
+		if (!user.isPresent()) {
 			return "Invalid Token";
 		}
 

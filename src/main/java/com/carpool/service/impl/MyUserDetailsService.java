@@ -34,7 +34,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
 		Optional<UserEntity> user = userRepository.findByEmail(s);
 
-		if (user.isEmpty()) {
+		if (!user.isPresent()) {
 			return null;
 		}
 
