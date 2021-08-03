@@ -16,7 +16,6 @@ public class AuthenticationRequestDto implements Serializable {
 	private String email;
 	private String password;
 	private String passwordResetToken;
-	@NotNull
 	private String username;
 
 	public AuthenticationRequestDto() {

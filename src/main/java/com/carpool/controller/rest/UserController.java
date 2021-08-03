@@ -162,7 +162,7 @@ public class UserController {
 
 	}
 
-	@PostMapping("/addRide/{userId}/{rideId}")
+	@PostMapping("/addRide")
 	public @ResponseBody ResponseEntity<Object> addRide(@RequestParam Long userId, @RequestParam Long rideId) {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(userService.addRide(userId, rideId));
@@ -172,7 +172,7 @@ public class UserController {
 
 	}
 
-	@DeleteMapping("/removeRide/{userId}/{rideId}")
+	@DeleteMapping("/removeRide")
 	public @ResponseBody ResponseEntity<Object> removeRide(@RequestParam Long userId, @RequestParam Long rideId) {
 		try {
 			System.out.println("controller");
