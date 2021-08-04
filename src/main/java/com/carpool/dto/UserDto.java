@@ -34,6 +34,7 @@ public class UserDto implements MyDto {
 	private List<RideDto> drivenRides = new ArrayList<RideDto>();
 	private Boolean enabled;
 	private Provider provider;
+	private CarpoolDto carpool;
 
 	public UserDto(Long id, String username, String email, String password, String fullName, String phone,
 			AddressDto workAddress, AddressDto homeAddress, CarDto car, List<WorkingTimeDto> workDays,
@@ -178,6 +179,15 @@ public class UserDto implements MyDto {
 
 	public void setDrivenRides(List<RideDto> drivenRides) {
 		this.drivenRides = drivenRides;
+	}
+	
+
+	public CarpoolDto getCarpool() {
+		return carpool;
+	}
+
+	public void setCarpool(CarpoolDto carpool) {
+		this.carpool = carpool;
 	}
 
 	@Override

@@ -1,13 +1,17 @@
 package com.carpool.dto;
 
 
+import java.util.List;
 import java.util.Objects;
+
+import com.carpool.entity.UserEntity;
 
 public class CarpoolDto implements MyDto{
     private static final long serialVersionUID = 1L;
     private Long id;
     private SimpleRideDto rideTo;
     private SimpleRideDto rideBack;
+    private List<UserEntity> passengers;
 
     public CarpoolDto(Long id, SimpleRideDto rideTo, SimpleRideDto rideBack) {
         this.id = id;
@@ -18,7 +22,16 @@ public class CarpoolDto implements MyDto{
     public CarpoolDto() {
     }
 
-    public Long getId() {
+    
+    public List<UserEntity> getPassengers() {
+		return passengers;
+	}
+
+	public void setPassengers(List<UserEntity> passengers) {
+		this.passengers = passengers;
+	}
+
+	public Long getId() {
         return id;
     }
 

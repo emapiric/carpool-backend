@@ -32,10 +32,10 @@ public class UserEntity implements MyEntity {
 	private String fullName;
 	private String phone;
 	@ManyToOne
-	@JoinColumn(name = "workAddress", referencedColumnName = "id")
+	@JoinColumn(name = "work_ddress", referencedColumnName = "id")
 	private AddressEntity workAddress;
 	@ManyToOne
-	@JoinColumn(name = "homeAddress", referencedColumnName = "id")
+	@JoinColumn(name = "home_ddress", referencedColumnName = "id")
 	private AddressEntity homeAddress;
 	@OneToOne
 	@JoinColumn(name = "plate_number")
@@ -52,6 +52,9 @@ public class UserEntity implements MyEntity {
 	private Provider provider;
 	private String confirmationToken;
 	private String resetPasswordToken;
+	@ManyToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name="carpool_id",referencedColumnName = "id")
+	private CarpoolEntity carpool;
 
 	public UserEntity(Long id, String username, String email, String password, String fullName, String phone,
 			AddressEntity workAddress, AddressEntity homeAddress, CarEntity car, List<WorkingTimeEntity> workDays,
@@ -75,8 +78,44 @@ public class UserEntity implements MyEntity {
 		this.confirmationToken = confirmationToken;
 		this.resetPasswordToken = forgotPasswordToken;
 	}
+	
+
+	public UserEntity(Long id, String username, String email, String password, String fullName, String phone,
+			AddressEntity workAddress, AddressEntity homeAddress, CarEntity car, List<WorkingTimeEntity> workDays,
+			List<RatingEntity> ratings, List<TakenRideEntity> takenRides, List<RideEntity> drivenRides, Boolean enabled,
+			Provider provider, String confirmationToken, String resetPasswordToken, CarpoolEntity carpool) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.fullName = fullName;
+		this.phone = phone;
+		this.workAddress = workAddress;
+		this.homeAddress = homeAddress;
+		this.car = car;
+		this.workDays = workDays;
+		this.ratings = ratings;
+		this.takenRides = takenRides;
+		this.drivenRides = drivenRides;
+		this.enabled = enabled;
+		this.provider = provider;
+		this.confirmationToken = confirmationToken;
+		this.resetPasswordToken = resetPasswordToken;
+		this.carpool = carpool;
+	}
+
 
 	public UserEntity() {
+	}
+	
+
+	public CarpoolEntity getCarpool() {
+		return carpool;
+	}
+
+	public void setCarpool(CarpoolEntity carpool) {
+		this.carpool = carpool;
 	}
 
 	public String getConfirmationToken() {

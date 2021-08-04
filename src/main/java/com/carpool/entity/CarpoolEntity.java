@@ -1,12 +1,16 @@
 package com.carpool.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -21,16 +25,39 @@ public class CarpoolEntity implements MyEntity{
     @OneToOne
     @JoinColumn(name="ride_back_id", referencedColumnName = "id")
     private RideEntity rideBack;
-
+    @OneToMany(mappedBy="carpool", cascade = CascadeType.ALL)
+    private List<UserEntity> passengers;
     public CarpoolEntity(Long id, RideEntity rideTo, RideEntity rideBack) {
         this.id = id;
         this.rideTo = rideTo;
         this.rideBack = rideBack;
     }
+    
+    
 
-    public CarpoolEntity() {
+    public CarpoolEntity(Long id, RideEntity rideTo, RideEntity rideBack, List<UserEntity> passengers) {
+		super();
+		this.id = id;
+		this.rideTo = rideTo;
+		this.rideBack = rideBack;
+		this.passengers = passengers;
+	}
+
+
+
+	public List<UserEntity> getPassengers() {
+		return passengers;
+	}
+
+
+	public void setPassengers(List<UserEntity> passengers) {
+		this.passengers = passengers;
+	}
+
+
+	public CarpoolEntity() {
     }
-
+    
     public Long getId() {
         return id;
     }
