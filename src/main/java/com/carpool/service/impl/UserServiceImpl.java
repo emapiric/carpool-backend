@@ -124,13 +124,14 @@ public class UserServiceImpl implements UserService {
 	public String confirm(String confirmationToken) throws Exception {
 		if (confirmationToken != null) {
 
+			if (jwtUtil.isTokenExpired(confirmationToken)) {
+				return "Token has expired";
+			}
 			Optional<UserEntity> existingClient = userRepository.findByConfirmationToken(confirmationToken);
 			if (!existingClient.isPresent()) {
 				return "Invalid link";
 			}
-			if (jwtUtil.isTokenExpired(confirmationToken)) {
-				return "Token has expired";
-			}
+			
 			existingClient.get().setEnabled(true);
 			existingClient.get().setConfirmationToken(null);
 			userRepository.save(existingClient.get());
