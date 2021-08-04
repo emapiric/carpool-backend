@@ -70,15 +70,14 @@ public class UserController {
 
 	}
 
-	// ova metoda samo sluzi nama za testiranje za sad, front ce confirm gadjati
-	// preko posta, kada se povezemo s frontom brisemo ovo
-	@RequestMapping(value = "/confirm-account", method = { RequestMethod.GET })
-	public ResponseEntity<Object> confirmUserAccountTest(@RequestParam("token") String confirmationToken) {
+	@PostMapping("/forgot_password")
+	public ResponseEntity<Object> processForgotPassword(@RequestBody AuthenticationRequestDto request) {
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(userService.confirm(confirmationToken));
+			return ResponseEntity.status(HttpStatus.OK).body(userService.forgetPassword(request));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
+
 	}
 
 	@RequestMapping(value = "/confirm-account", method = { RequestMethod.POST })
@@ -90,10 +89,12 @@ public class UserController {
 		}
 	}
 
-	@PostMapping("/forgot_password")
-	public ResponseEntity<Object> processForgotPassword(@RequestBody AuthenticationRequestDto request) {
+	// ova metoda samo sluzi nama za testiranje za sad, front ce confirm gadjati
+	// preko posta, kada se povezemo s frontom brisemo ovo
+	@RequestMapping(value = "/confirm-account", method = { RequestMethod.GET })
+	public ResponseEntity<Object> confirmUserAccountTest(@RequestParam("token") String confirmationToken) {
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(userService.forgetPassword(request));
+			return ResponseEntity.status(HttpStatus.OK).body(userService.confirm(confirmationToken));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
