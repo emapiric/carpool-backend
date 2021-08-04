@@ -49,27 +49,6 @@ public class UserController {
 		this.userDetailsService = userDetailsService;
 	}
 
-//	@PostMapping("/registration")
-//	public ResponseEntity<Object> registerUserAccount(@RequestBody UserDto userDto) {
-//		try {
-//			userService.saveUser(userDto);
-//		} catch (Exception e) {
-//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-//		}
-//		return ResponseEntity.status(HttpStatus.OK).body(userDto);
-//
-//	}
-//
-//	@PostMapping("/users/login")
-//	public ResponseEntity<Object> loginUser(@RequestBody UserDto user) {
-//		UserDto existingUser = userService.findUserByUsername(user.getUsername(), user.getPassword());
-//		if (existingUser != null) {
-//			return ResponseEntity.status(HttpStatus.OK).body(existingUser);
-//		}
-//		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found");
-//
-//	}
-
 	@PostMapping(value = "/registration")
 	public ResponseEntity<Object> registerUser(@RequestBody @Valid UserDto user, BindingResult bindingResult) {
 		try {
@@ -80,7 +59,7 @@ public class UserController {
 					String errorMessage = error.getDefaultMessage();
 					errors.put(fieldName, errorMessage);
 				});
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error registering client " + errors);
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error registering user " + errors);
 
 			} else {
 				return ResponseEntity.status(HttpStatus.OK).body(userService.register(user));
@@ -91,6 +70,8 @@ public class UserController {
 
 	}
 
+	// ova metoda samo sluzi nama za testiranje za sad, front ce confirm gadjati
+	// preko posta, kada se povezemo s frontom brisemo ovo
 	@RequestMapping(value = "/confirm-account", method = { RequestMethod.GET })
 	public ResponseEntity<Object> confirmUserAccountTest(@RequestParam("token") String confirmationToken) {
 		try {
@@ -110,30 +91,19 @@ public class UserController {
 	}
 
 	@PostMapping("/forgot_password")
-	public ResponseEntity<Object> processForgotPassword(@RequestBody @Valid AuthenticationRequestDto request,
-			BindingResult bindingResult) {
+	public ResponseEntity<Object> processForgotPassword(@RequestBody AuthenticationRequestDto request) {
 		try {
-			if (bindingResult.hasErrors()) {
-				Map<String, String> errors = new HashMap<>();
-				bindingResult.getAllErrors().forEach((error) -> {
-					String fieldName = ((FieldError) error).getField();
-					String errorMessage = error.getDefaultMessage();
-					errors.put(fieldName, errorMessage);
-				});
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error registering client " + errors);
-			} else {
-				return ResponseEntity.status(HttpStatus.OK).body(userService.forgetPassword(request));
-			}
+			return ResponseEntity.status(HttpStatus.OK).body(userService.forgetPassword(request));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 
 	}
 
+	// isto kao za GET confirm
 	@GetMapping("/reset_password")
 	public ResponseEntity<Object> showResetPasswordForm(@Param(value = "token") String token) {
 		try {
-
 			return ResponseEntity.status(HttpStatus.OK).body(userService.resetPassword(token));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -152,7 +122,7 @@ public class UserController {
 					String errorMessage = error.getDefaultMessage();
 					errors.put(fieldName, errorMessage);
 				});
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error registering client " + errors);
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error reseting password" + errors);
 			} else {
 				return ResponseEntity.status(HttpStatus.OK).body(userService.processResetPassword(request));
 			}
@@ -183,26 +153,14 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-	public ResponseEntity<?> createAuthenticationToken(
-			@RequestBody @Valid AuthenticationRequestDto authenticationRequest, BindingResult bindingResult)
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequestDto authenticationRequest)
 			throws Exception {
-
 		try {
-			if (bindingResult.hasErrors()) {
-				Map<String, String> errors = new HashMap<>();
-				bindingResult.getAllErrors().forEach((error) -> {
-					String fieldName = ((FieldError) error).getField();
-					String errorMessage = error.getDefaultMessage();
-					errors.put(fieldName, errorMessage);
-				});
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error registering client " + errors);
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
+					authenticationRequest.getPassword()));
+		} catch (
 
-			} else {
-				authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-						authenticationRequest.getEmail(), authenticationRequest.getPassword()));
-			}
-		} catch (Exception e) {
-			// throw new Exception("Incorrect username or password", e);
+		Exception e) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Incorrect username or password");
 
 		}

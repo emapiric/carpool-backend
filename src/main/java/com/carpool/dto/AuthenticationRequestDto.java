@@ -2,7 +2,6 @@ package com.carpool.dto;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 public class AuthenticationRequestDto implements Serializable {
@@ -11,28 +10,24 @@ public class AuthenticationRequestDto implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	@NotNull
-	@Pattern(regexp = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")
 	private String email;
+	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=\\S+$).{8,}$")
 	private String password;
 	private String passwordResetToken;
-	private String username;
 
 	public AuthenticationRequestDto() {
 
 	}
 
-	public AuthenticationRequestDto(String email, String password, String username) {
+	public AuthenticationRequestDto(String email, String password) {
 		this.setEmail(email);
 		this.setPassword(password);
-		this.setUsername(username);
 	}
 
-	public AuthenticationRequestDto(String email, String password, String username, String passwordResetToken) {
+	public AuthenticationRequestDto(String email, String password, String passwordResetToken) {
 		this.setEmail(email);
 		this.setPassword(password);
 		this.setPasswordResetToken(passwordResetToken);
-		this.setUsername(username);
 	}
 
 	public String getEmail() {
@@ -51,13 +46,7 @@ public class AuthenticationRequestDto implements Serializable {
 		this.password = password;
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
+	
 
 	public String getPasswordResetToken() {
 		return passwordResetToken;
@@ -70,7 +59,7 @@ public class AuthenticationRequestDto implements Serializable {
 	@Override
 	public String toString() {
 		return "AuthenticationRequestDto [email=" + email + ", password=" + password + ", passwordResetToken="
-				+ passwordResetToken + ", username=" + username + "]";
+				+ passwordResetToken +  "]";
 	}
 	
 }

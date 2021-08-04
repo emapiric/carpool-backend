@@ -2,6 +2,7 @@ package com.carpool.controller.rest;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,11 @@ import com.carpool.service.CarpoolService;
 public class CarpoolController {
 
     CarpoolService carpoolService;
+    
+    @Autowired
+    public CarpoolController( CarpoolService carpoolService) {
+    	this.carpoolService = carpoolService;
+    }
 
     @PostMapping("create")
     public ResponseEntity<Object> createCarpool(@RequestBody List<CarpoolDto> carpoolDtoList) {
