@@ -1,8 +1,9 @@
 package com.carpool.mapper;
 
+import org.mapstruct.Mapper;
+
 import com.carpool.dto.WorkingTimeDto;
 import com.carpool.entity.WorkingTimeEntity;
-import org.mapstruct.Mapper;
 
 @Mapper(componentModel="spring")
 public interface WorkingTimeEntityDtoMapper {

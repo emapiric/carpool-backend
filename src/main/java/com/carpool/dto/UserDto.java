@@ -1,14 +1,12 @@
 package com.carpool.dto;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
-import com.carpool.util.Provider;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 public class UserDto implements MyDto {
 
@@ -33,13 +31,11 @@ public class UserDto implements MyDto {
 	private List<TakenRideDto> takenRides = new ArrayList<TakenRideDto>();
 	private List<RideDto> drivenRides = new ArrayList<RideDto>();
 	private Boolean enabled;
-	private Provider provider;
 	private CarpoolDto carpool;
 
 	public UserDto(Long id, String username, String email, String password, String fullName, String phone,
 			AddressDto workAddress, AddressDto homeAddress, CarDto car, List<WorkingTimeDto> workDays,
-			List<RatingDto> ratings, List<TakenRideDto> takenRides, List<RideDto> drivenRides, Boolean enabled,
-			Provider provider) {
+			List<RatingDto> ratings, List<TakenRideDto> takenRides, List<RideDto> drivenRides, Boolean enabled) {
 		this.id = id;
 		this.username = username;
 		this.email = email;
@@ -54,19 +50,9 @@ public class UserDto implements MyDto {
 		this.takenRides = takenRides;
 		this.drivenRides = drivenRides;
 		this.enabled = enabled;
-		this.provider = provider;
 	}
 
 	public UserDto() {
-	}
-
-	
-	public Provider getProvider() {
-		return provider;
-	}
-
-	public void setProvider(Provider provider) {
-		this.provider = provider;
 	}
 
 	public Boolean getEnabled() {
@@ -180,7 +166,6 @@ public class UserDto implements MyDto {
 	public void setDrivenRides(List<RideDto> drivenRides) {
 		this.drivenRides = drivenRides;
 	}
-	
 
 	public CarpoolDto getCarpool() {
 		return carpool;

@@ -17,10 +17,10 @@ public interface UserService {
 
 	public String confirm(String confirmationToken) throws Exception;
 
-	public String resetPassword(String token);
+	public String resetPassword(String token) throws Exception;
 
-	public String processResetPassword(@Valid AuthenticationRequestDto request);
+	public String processResetPassword(@Valid AuthenticationRequestDto request) throws Exception;
 
-	public String forgetPassword(@Valid AuthenticationRequestDto request);
+	public String forgetPassword(@Valid AuthenticationRequestDto request) throws Exception;
 
 }

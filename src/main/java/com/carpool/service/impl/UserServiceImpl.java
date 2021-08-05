@@ -97,6 +97,17 @@ public class UserServiceImpl implements UserService {
 			throw new Exception("Email is already taken");
 		} else {
 			String confirmationToken = jwtUtil.generateTokenFromString(user.getEmail());
+			SimpleMailMessage mailMessage = new SimpleMailMessage();
+			mailMessage.setTo(user.getEmail());
+			mailMessage.setFrom("carpoolproject700@gmail.com");
+			mailMessage.setText("To confirm your account, please click here : "
+					+ "http://localhost:8080/carpool-be/api/user/confirm-account?token=" + confirmationToken);
+
+			try {
+				emailSenderService.sendEmail(mailMessage);
+			} catch (Exception e) {
+				throw new Exception("Invalid mail");
+			}
 			if (!existingUser.isPresent()) {
 				user.setEnabled(false);
 				user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -109,13 +120,6 @@ public class UserServiceImpl implements UserService {
 				userRepository.save(existingUser.get());
 			}
 
-			SimpleMailMessage mailMessage = new SimpleMailMessage();
-			mailMessage.setTo(user.getEmail());
-			mailMessage.setFrom("carpoolproject700@gmail.com");
-			mailMessage.setText("To confirm your account, please click here : "
-					+ "http://localhost:8080/carpool-be/api/user/confirm-account?token=" + confirmationToken);
-
-			emailSenderService.sendEmail(mailMessage);
 		}
 		return "Verification mail was sent";
 	}
@@ -123,15 +127,18 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String confirm(String confirmationToken) throws Exception {
 		if (confirmationToken != null) {
-
-			if (jwtUtil.isTokenExpired(confirmationToken)) {
-				return "Token has expired";
+			try {
+				if (jwtUtil.isTokenExpired(confirmationToken)) {
+					throw new Exception("Token has expired");
+				}
+			} catch (Exception e) {
+				throw new Exception("Token has expired");
 			}
 			Optional<UserEntity> existingClient = userRepository.findByConfirmationToken(confirmationToken);
 			if (!existingClient.isPresent()) {
-				return "Invalid link";
+				throw new Exception("Invalid link");
 			}
-			
+
 			existingClient.get().setEnabled(true);
 			existingClient.get().setConfirmationToken(null);
 			userRepository.save(existingClient.get());
@@ -144,26 +151,30 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String resetPassword(String token) {
+	public String resetPassword(String token) throws Exception {
 		Optional<UserEntity> user = userRepository.findByResetPasswordToken(token).get(0);
 
 		if (!user.isPresent()) {
-			return "Invalid Token";
+			throw new Exception("Invalid Token");
 		}
 
 		return "reset_password_form";
 	}
 
 	@Override
-	public String processResetPassword(@Valid AuthenticationRequestDto request) {
+	public String processResetPassword(@Valid AuthenticationRequestDto request) throws Exception {
 		String token = request.getPasswordResetToken();
 		String password = request.getPassword();
 		Optional<UserEntity> user = userRepository.findByResetPasswordToken(token).get(0);
 		if (!user.isPresent()) {
 			return "Invalid Token";
 		} else {
-			if (token != null && jwtUtil.isTokenExpired(token)) {
-				return "Token has expired";
+			try {
+				if (token != null && jwtUtil.isTokenExpired(token)) {
+					throw new Exception("Token has expired");
+				}
+			} catch (Exception e) {
+				throw new Exception("Token has expired");
 			}
 
 			user.get().setPassword(passwordEncoder.encode(password));
@@ -175,12 +186,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String forgetPassword(@Valid AuthenticationRequestDto request) {
+	public String forgetPassword(@Valid AuthenticationRequestDto request) throws Exception {
 		Optional<UserEntity> user = userRepository.findByEmail(request.getEmail());
-		String message;
 
 		if (!user.isPresent()) {
-			message = "Can not reset password";
+			throw new Exception("Can not reset password");
 		} else if (user.get().getEnabled() == true) {
 			String email = request.getEmail();
 			String token = jwtUtil.generateTokenFromString(email);
@@ -200,15 +210,14 @@ public class UserServiceImpl implements UserService {
 				emailSenderService.sendEmail(mailMessage);
 
 			} catch (Exception ex) {
-				return ex.getMessage();
+				throw new Exception("Invalid mail");
 			}
 
-			message = "Password reset email was sent";
 		} else {
 
-			message = "Can not reset password";
+			throw new Exception("Can not reset password");
 		}
-		return message;
+		return "Password reset email was sent";
 	}
 
 	public void updateResetPasswordToken(String token, String email) {

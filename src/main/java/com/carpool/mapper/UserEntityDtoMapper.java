@@ -21,16 +21,14 @@ public class UserEntityDtoMapper {
 	RatingEntityDtoMapper ratingMapper;
 	UserEntitySimpleDtoMapper userMapper;
 	RideEntitySimpleDtoMapper rideMapper;
-	CarpoolEntityDtoMapper carpoolMapper;
 
 	@Autowired
-	public UserEntityDtoMapper(CarpoolEntityDtoMapper carpoolMapper,RideEntitySimpleDtoMapper rideMapper, UserEntitySimpleDtoMapper userMapper, CarEntityDtoMapper carMapper, AddressEntityDtoMapper addressMapper, RatingEntityDtoMapper ratingMapper) {
+	public UserEntityDtoMapper(RideEntitySimpleDtoMapper rideMapper, UserEntitySimpleDtoMapper userMapper, CarEntityDtoMapper carMapper, AddressEntityDtoMapper addressMapper, RatingEntityDtoMapper ratingMapper) {
 		this.carMapper = carMapper;
 		this.addressMapper = addressMapper;
 		this.ratingMapper = ratingMapper;
 		this.userMapper = userMapper;
 		this.rideMapper = rideMapper;
-		this.carpoolMapper = carpoolMapper;
 	}
 
 	public UserDto toDto(UserEntity entity) {
@@ -44,8 +42,6 @@ public class UserEntityDtoMapper {
 		dto.setHomeAddress(addressMapper.toDto(entity.getHomeAddress()));
 		dto.setWorkAddress(addressMapper.toDto(entity.getWorkAddress()));
 		dto.setUsername(entity.getUsername());
-		dto.setProvider(entity.getProvider());
-		dto.setCarpool(carpoolMapper.toDto(entity.getCarpool()) );
 		List<RatingEntity> ratings = new ArrayList<>();
 		dto.setRatings(ratings.stream().map(rating -> {
 			return ratingMapper.toDto(rating);
@@ -68,8 +64,6 @@ public class UserEntityDtoMapper {
 		entity.setHomeAddress(addressMapper.toEntity(dto.getHomeAddress()));
 		entity.setWorkAddress(addressMapper.toEntity(dto.getWorkAddress()));
 		entity.setUsername(dto.getUsername());
-		entity.setProvider(dto.getProvider());
-		entity.setCarpool(carpoolMapper.toEntity(dto.getCarpool()));
 		List<RatingDto> ratings = new ArrayList<>();
 		entity.setRatings(ratings.stream().map(rating -> {
 			return ratingMapper.toEntity(rating);

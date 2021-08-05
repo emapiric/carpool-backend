@@ -17,8 +17,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.carpool.util.Provider;
-
 @Entity
 @Table(name = "user")
 public class UserEntity implements MyEntity {
@@ -49,17 +47,12 @@ public class UserEntity implements MyEntity {
 	@OneToMany(mappedBy = "driver", cascade = CascadeType.MERGE, orphanRemoval = true)
 	private List<RideEntity> drivenRides = new ArrayList<RideEntity>();
 	private Boolean enabled;
-	private Provider provider;
 	private String confirmationToken;
 	private String resetPasswordToken;
-	@ManyToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name="carpool_id",referencedColumnName = "id")
-	private CarpoolEntity carpool;
 
 	public UserEntity(Long id, String username, String email, String password, String fullName, String phone,
 			AddressEntity workAddress, AddressEntity homeAddress, CarEntity car, List<WorkingTimeEntity> workDays,
-			List<RatingEntity> ratings, List<TakenRideEntity> takenRides, List<RideEntity> drivenRides, Boolean enabled,
-			Provider provider, String confirmationToken, String forgotPasswordToken) {
+			List<RatingEntity> ratings, List<TakenRideEntity> takenRides, List<RideEntity> drivenRides, Boolean enabled,String confirmationToken, String forgotPasswordToken) {
 		this.id = id;
 		this.username = username;
 		this.email = email;
@@ -74,48 +67,11 @@ public class UserEntity implements MyEntity {
 		this.takenRides = takenRides;
 		this.drivenRides = drivenRides;
 		this.enabled = enabled;
-		this.provider = provider;
 		this.confirmationToken = confirmationToken;
 		this.resetPasswordToken = forgotPasswordToken;
 	}
-	
-
-	public UserEntity(Long id, String username, String email, String password, String fullName, String phone,
-			AddressEntity workAddress, AddressEntity homeAddress, CarEntity car, List<WorkingTimeEntity> workDays,
-			List<RatingEntity> ratings, List<TakenRideEntity> takenRides, List<RideEntity> drivenRides, Boolean enabled,
-			Provider provider, String confirmationToken, String resetPasswordToken, CarpoolEntity carpool) {
-		super();
-		this.id = id;
-		this.username = username;
-		this.email = email;
-		this.password = password;
-		this.fullName = fullName;
-		this.phone = phone;
-		this.workAddress = workAddress;
-		this.homeAddress = homeAddress;
-		this.car = car;
-		this.workDays = workDays;
-		this.ratings = ratings;
-		this.takenRides = takenRides;
-		this.drivenRides = drivenRides;
-		this.enabled = enabled;
-		this.provider = provider;
-		this.confirmationToken = confirmationToken;
-		this.resetPasswordToken = resetPasswordToken;
-		this.carpool = carpool;
-	}
-
 
 	public UserEntity() {
-	}
-	
-
-	public CarpoolEntity getCarpool() {
-		return carpool;
-	}
-
-	public void setCarpool(CarpoolEntity carpool) {
-		this.carpool = carpool;
 	}
 
 	public String getConfirmationToken() {
@@ -134,13 +90,6 @@ public class UserEntity implements MyEntity {
 		this.resetPasswordToken = forgotPasswordToken;
 	}
 
-	public Provider getProvider() {
-		return provider;
-	}
-
-	public void setProvider(Provider provider) {
-		this.provider = provider;
-	}
 
 	public Long getId() {
 		return id;
