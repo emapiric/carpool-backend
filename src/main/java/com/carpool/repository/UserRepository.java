@@ -11,7 +11,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource(collectionResourceRel = "user", path="user")
 public interface UserRepository extends JpaRepository<UserEntity,Long> {
 	Optional<UserEntity> findByEmail(String email);
-	List<UserEntity> findByUsername(String username);
+	Optional<UserEntity> findByUsername(String username);
 	Optional<UserEntity> findByConfirmationToken(String confirmationToken);
 	List<Optional<UserEntity>> findByResetPasswordToken(String confirmationToken);
 }

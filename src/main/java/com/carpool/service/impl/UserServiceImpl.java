@@ -1,6 +1,5 @@
 package com.carpool.service.impl;
 
-import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -47,8 +46,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void saveUser(UserDto user) throws Exception {
-		List<UserEntity> existingUsers = userRepository.findByUsername(user.getUsername());
-		if (existingUsers.size() == 0) {
+		Optional<UserEntity> existingUser = userRepository.findByUsername(user.getUsername());
+		if (!existingUser.isPresent()) {
 			userRepository.save(userMapper.toEntity(user));
 		} else
 			throw new Exception("User already exists");
