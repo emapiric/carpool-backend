@@ -12,18 +12,16 @@ public class SimpleRideDto implements MyDto {
 	private AddressDto from;
 	private AddressDto to;
 	private double pricePerPerson;
-	private CarpoolDto carpool;
 	private SimpleUserDto driver;
 
 	public SimpleRideDto(Long id, int capacity, LocalDateTime dateTime, AddressDto from, AddressDto to,
-			double pricePerPerson, CarpoolDto carpool, SimpleUserDto driver) {
+			double pricePerPerson, SimpleUserDto driver) {
 		this.id = id;
 		this.capacity = capacity;
 		this.dateTime = dateTime;
 		this.from = from;
 		this.to = to;
 		this.pricePerPerson = pricePerPerson;
-		this.carpool = carpool;
 		this.driver = driver;
 	}
 
@@ -78,14 +76,6 @@ public class SimpleRideDto implements MyDto {
 		this.pricePerPerson = pricePerPerson;
 	}
 
-	public CarpoolDto carpool() {
-		return carpool;
-	}
-
-	public void setCarpool(CarpoolDto carpool) {
-		this.carpool = carpool;
-	}
-
 	public SimpleUserDto getDriver() {
 		return driver;
 	}
@@ -97,7 +87,7 @@ public class SimpleRideDto implements MyDto {
 	@Override
 	public String toString() {
 		return "RideDto{" + "id=" + id + ", capacity=" + capacity + ", dateTime=" + dateTime + ", from=" + from
-				+ ", to=" + to + ", pricePerPerson=" + pricePerPerson + ", carpool=" + carpool + ", driver="
+				+ ", to=" + to + ", pricePerPerson=" + pricePerPerson + ", driver="
 				+ driver + '}';
 	}
 
@@ -106,12 +96,12 @@ public class SimpleRideDto implements MyDto {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		SimpleRideDto that = (SimpleRideDto) o;
-		return capacity == that.capacity && Double.compare(that.pricePerPerson, pricePerPerson) == 0 && Objects.equals(id, that.id) && Objects.equals(dateTime, that.dateTime) && Objects.equals(from, that.from) && Objects.equals(to, that.to) && Objects.equals(carpool, that.carpool) && Objects.equals(driver, that.driver);
+		return capacity == that.capacity && Double.compare(that.pricePerPerson, pricePerPerson) == 0 && Objects.equals(id, that.id) && Objects.equals(dateTime, that.dateTime) && Objects.equals(from, that.from) && Objects.equals(to, that.to)  && Objects.equals(driver, that.driver);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, capacity, dateTime, from, to, pricePerPerson, carpool, driver);
+		return Objects.hash(id, capacity, dateTime, from, to, pricePerPerson, driver);
 	}
 
 }
