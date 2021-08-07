@@ -192,6 +192,15 @@ public class UserServiceImpl implements UserService {
         return "Password reset email was sent";
     }
 
+    @Override
+    public UserDto findByUsername(String username) throws Exception {
+        Optional<UserEntity> user = userRepository.findByUsername(username);
+        if (!user.isPresent()) {
+            throw new Exception("User doesn't exist");
+        }
+        return userMapper.toDto(user.get());
+    }
+
     public void updateResetPasswordToken(String token, String email) {
         Optional<UserEntity> user = userRepository.findByEmail(email);
         if (user.isPresent()) {

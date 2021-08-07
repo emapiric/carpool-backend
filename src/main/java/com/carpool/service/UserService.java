@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import com.carpool.dto.AuthenticationRequestDto;
 import com.carpool.dto.UserDto;
+import org.springframework.http.ResponseEntity;
 
 public interface UserService {
 
@@ -23,4 +24,5 @@ public interface UserService {
 
 	public String forgetPassword(@Valid AuthenticationRequestDto request) throws Exception;
 
+    UserDto findByUsername(String username) throws Exception;
 }
