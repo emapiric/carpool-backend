@@ -39,7 +39,7 @@ public class RideServiceImpl implements RideService {
                 .findAll()
                 .stream().filter(ride -> haversineService.isOnWay(ride, rideRequest) &&
                         isLaterToday(ride.getDateTime(), rideRequest.getDateTime()) &&
-                        ride.hasSpace())
+                        ride.hasSpace(rideRequest.getNumberOfPassangers()))
                 .map(ride -> rideMapper.toDto(ride)).collect(Collectors.toList());
     }
 

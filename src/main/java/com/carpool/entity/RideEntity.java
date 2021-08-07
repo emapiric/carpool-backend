@@ -145,7 +145,7 @@ public class RideEntity {
 		return Objects.hash(id, passengers, capacity, dateTime, from, to, pricePerPerson, driver);
 	}
 
-	public boolean hasSpace() {
-		return this.passengers.size() < this.capacity;
+	public boolean hasSpace(int numberOfPassangers) {
+		return this.capacity > this.passengers.size() + numberOfPassangers;
 	}
 }

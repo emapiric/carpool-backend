@@ -20,11 +20,13 @@ public class RideRequestDto implements MyDto{
     private LocalDateTime dateTime = LocalDateTime.now();
     private AddressRequestDto from;
     private AddressRequestDto to;
+    private int numberOfPassangers;
 
-    public RideRequestDto(LocalDateTime dateTime, AddressRequestDto from, AddressRequestDto to) {
+    public RideRequestDto(LocalDateTime dateTime, AddressRequestDto from, AddressRequestDto to, int numberOfPassangers) {
         this.dateTime = dateTime;
         this.from = from;
         this.to = to;
+        this.numberOfPassangers = numberOfPassangers;
     }
 
     public RideRequestDto(AddressRequestDto from, AddressRequestDto to) {
@@ -59,12 +61,21 @@ public class RideRequestDto implements MyDto{
         this.to = to;
     }
 
+    public int getNumberOfPassangers() {
+        return numberOfPassangers;
+    }
+
+    public void setNumberOfPassangers(int numberOfPassangers) {
+        this.numberOfPassangers = numberOfPassangers;
+    }
+
     @Override
     public String toString() {
         return "RideRequestDto{" +
                 "dateTime=" + dateTime +
                 ", from=" + from +
                 ", to=" + to +
+                ", numberOfPassangers=" + numberOfPassangers +
                 '}';
     }
 
@@ -73,11 +84,11 @@ public class RideRequestDto implements MyDto{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RideRequestDto that = (RideRequestDto) o;
-        return Objects.equals(dateTime, that.dateTime) && Objects.equals(from, that.from) && Objects.equals(to, that.to);
+        return numberOfPassangers == that.numberOfPassangers && Objects.equals(dateTime, that.dateTime) && Objects.equals(from, that.from) && Objects.equals(to, that.to);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(dateTime, from, to);
+        return Objects.hash(dateTime, from, to, numberOfPassangers);
     }
 }
