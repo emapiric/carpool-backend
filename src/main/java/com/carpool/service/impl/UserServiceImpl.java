@@ -25,207 +25,179 @@ import com.carpool.util.JwtUtil;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-	private UserRepository userRepository;
-	private UserEntityDtoMapper userMapper;
-	private RideRepository rideRepository;
-	private JwtUtil jwtUtil;
-	private PasswordEncoder passwordEncoder;
-	private EmailSenderService emailSenderService;
+    private UserRepository userRepository;
+    private UserEntityDtoMapper userMapper;
+    private RideRepository rideRepository;
+    private JwtUtil jwtUtil;
+    private PasswordEncoder passwordEncoder;
+    private EmailSenderService emailSenderService;
 
-	@Autowired
-	public UserServiceImpl(UserRepository userRepository, UserEntityDtoMapper userMapper, RideRepository rideRepository,
-			JwtUtil jwtUtil, PasswordEncoder passwordEncoder, EmailSenderService emailSenderService) {
-		this.userRepository = userRepository;
-		this.userMapper = userMapper;
-		this.rideRepository = rideRepository;
-		this.jwtUtil = jwtUtil;
-		this.passwordEncoder = passwordEncoder;
-		this.emailSenderService = emailSenderService;
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository, UserEntityDtoMapper userMapper, RideRepository rideRepository,
+                           JwtUtil jwtUtil, PasswordEncoder passwordEncoder, EmailSenderService emailSenderService) {
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
+        this.rideRepository = rideRepository;
+        this.jwtUtil = jwtUtil;
+        this.passwordEncoder = passwordEncoder;
+        this.emailSenderService = emailSenderService;
 
-	}
+    }
 
-	@Override
-	public void saveUser(UserDto user) throws Exception {
-		Optional<UserEntity> existingUser = userRepository.findByUsername(user.getUsername());
-		if (!existingUser.isPresent()) {
-			userRepository.save(userMapper.toEntity(user));
-		} else
-			throw new Exception("User already exists");
-	}
+    @Override
+    public void saveUser(UserDto user) throws Exception {
+        Optional<UserEntity> existingUser = userRepository.findByUsername(user.getUsername());
+        if (!existingUser.isPresent()) {
+            userRepository.save(userMapper.toEntity(user));
+        } else
+            throw new Exception("User already exists");
+    }
 
-	@Override
-	public UserDto removeRide(Long userId, Long rideId) throws Exception {
-		Optional<UserEntity> userEntityOptional = userRepository.findById(userId);
-		if (!userEntityOptional.isPresent()) {
-			throw new Exception("user does not exist");
-		}
-		Optional<RideEntity> rideEntityOptional = rideRepository.findById(rideId);
-		if (!rideEntityOptional.isPresent()) {
-			throw new Exception("ride does not exist");
-		}
-		RideEntity ride = rideEntityOptional.get();
-		UserEntity user = userEntityOptional.get();
-		user.removeTakenRide(ride);
-		user = userRepository.save(user);
-		return userMapper.toDto(user);
-	}
+    @Override
+    public UserDto removeRide(Long userId, Long rideId) throws Exception {
+        Optional<UserEntity> userEntityOptional = userRepository.findById(userId);
+        if (!userEntityOptional.isPresent()) {
+            throw new Exception("user does not exist");
+        }
+        Optional<RideEntity> rideEntityOptional = rideRepository.findById(rideId);
+        if (!rideEntityOptional.isPresent()) {
+            throw new Exception("ride does not exist");
+        }
+        RideEntity ride = rideEntityOptional.get();
+        UserEntity user = userEntityOptional.get();
+        user.removeTakenRide(ride);
+        user = userRepository.save(user);
+        return userMapper.toDto(user);
+    }
 
-	@Override
-	public UserDto addRide(Long userId, Long rideId) throws Exception {
-		Optional<UserEntity> userEntityOptional = userRepository.findById(userId);
-		if (!userEntityOptional.isPresent()) {
-			throw new Exception("user does not exist");
-		}
-		Optional<RideEntity> rideEntityOptional = rideRepository.findById(rideId);
-		if (!rideEntityOptional.isPresent()) {
-			throw new Exception("ride does not exist");
-		}
+    @Override
+    public UserDto addRide(Long userId, Long rideId) throws Exception {
+        Optional<UserEntity> userEntityOptional = userRepository.findById(userId);
+        if (!userEntityOptional.isPresent()) {
+            throw new Exception("user does not exist");
+        }
+        Optional<RideEntity> rideEntityOptional = rideRepository.findById(rideId);
+        if (!rideEntityOptional.isPresent()) {
+            throw new Exception("ride does not exist");
+        }
 
-		UserEntity user = userEntityOptional.get();
-		RideEntity ride = rideEntityOptional.get();
-		user.addTakenRide(new TakenRideEntity(user, ride, false, false));
-		userRepository.save(user);
-		return userMapper.toDto(user);
-	}
+        UserEntity user = userEntityOptional.get();
+        RideEntity ride = rideEntityOptional.get();
+        user.addTakenRide(new TakenRideEntity(user, ride, false, false));
+        userRepository.save(user);
+        return userMapper.toDto(user);
+    }
 
-	@Override
-	public String register(@Valid UserDto user) throws Exception {
-		Optional<UserEntity> existingUser = userRepository.findByEmail(user.getEmail());
-		if (existingUser.isPresent() && existingUser.get().getEnabled() != null
-				&& existingUser.get().getEnabled() == true) {
-			throw new Exception("Email is already taken");
-		} else {
-			String confirmationToken = jwtUtil.generateTokenFromString(user.getEmail());
-			SimpleMailMessage mailMessage = new SimpleMailMessage();
-			mailMessage.setTo(user.getEmail());
-			mailMessage.setFrom("carpoolproject700@gmail.com");
-			mailMessage.setText("To confirm your account, please click here : "
-					+ "http://localhost:8080/carpool-be/api/user/confirm-account?token=" + confirmationToken);
+    @Override
+    public String register(@Valid UserDto user) throws Exception {
+        Optional<UserEntity> existingUser = userRepository.findByEmail(user.getEmail());
+        if (existingUser.isPresent() && existingUser.get().getEnabled() != null && existingUser.get().getEnabled() == true) {
+            throw new Exception("Email is already taken");
+        }
+        String confirmationToken = jwtUtil.generateTokenFromString(user.getEmail());
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(user.getEmail());
+        mailMessage.setFrom("carpoolproject700@gmail.com");
+        mailMessage.setText("To confirm your account, please click here : "
+                + "http://localhost:8080/carpool-be/api/user/confirm-account?token=" + confirmationToken);
+        try {
+            emailSenderService.sendEmail(mailMessage);
+        } catch (Exception e) {
+            throw new Exception("Invalid mail");
+        }
+        if (!existingUser.isPresent()) {
+            user.setEnabled(false);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            UserEntity userEntity = userMapper.toEntity(user);
+            userEntity.setConfirmationToken(confirmationToken);
+            userRepository.save(userEntity);
+        } else {
+            existingUser.get().setEnabled(false);
+            existingUser.get().setConfirmationToken(confirmationToken);
+            userRepository.save(existingUser.get());
+        }
+        return "Verification mail was sent";
+    }
 
-			try {
-				emailSenderService.sendEmail(mailMessage);
-			} catch (Exception e) {
-				throw new Exception("Invalid mail");
-			}
-			if (!existingUser.isPresent()) {
-				user.setEnabled(false);
-				user.setPassword(passwordEncoder.encode(user.getPassword()));
-				UserEntity userEntity = userMapper.toEntity(user);
-				userEntity.setConfirmationToken(confirmationToken);
-				userRepository.save(userEntity);
-			} else {
-				existingUser.get().setEnabled(false);
-				existingUser.get().setConfirmationToken(confirmationToken);
-				userRepository.save(existingUser.get());
-			}
+    @Override
+    public String confirm(String confirmationToken) throws Exception {
+        if (confirmationToken != null) {
+            try {
+                if (jwtUtil.isTokenExpired(confirmationToken)) {
+                    throw new Exception("Token has expired");
+                }
+            } catch (Exception e) {
+                throw new Exception("Token has expired");
+            }
+            Optional<UserEntity> existingClient = userRepository.findByConfirmationToken(confirmationToken);
+            if (!existingClient.isPresent()) {
+                throw new Exception("Invalid link");
+            }
+            existingClient.get().setEnabled(true);
+            existingClient.get().setConfirmationToken(null);
+            userRepository.save(existingClient.get());
+        } else {
+            throw new Exception("Token is not present");
+        }
+        return "Successfully registered!";
+    }
 
-		}
-		return "Verification mail was sent";
-	}
+    @Override
+    public String resetPassword(String token) throws Exception {
+        Optional<UserEntity> user = userRepository.findByResetPasswordToken(token).get(0);
+        if (!user.isPresent()) {
+            throw new Exception("Invalid Token");
+        }
+        return "reset_password_form";
+    }
 
-	@Override
-	public String confirm(String confirmationToken) throws Exception {
-		if (confirmationToken != null) {
-			try {
-				if (jwtUtil.isTokenExpired(confirmationToken)) {
-					throw new Exception("Token has expired");
-				}
-			} catch (Exception e) {
-				throw new Exception("Token has expired");
-			}
-			Optional<UserEntity> existingClient = userRepository.findByConfirmationToken(confirmationToken);
-			if (!existingClient.isPresent()) {
-				throw new Exception("Invalid link");
-			}
+    @Override
+    public String processResetPassword(@Valid AuthenticationRequestDto request) throws Exception {
+        String token = request.getPasswordResetToken();
+        String password = request.getPassword();
+        Optional<UserEntity> user = userRepository.findByResetPasswordToken(token).get(0);
+        if (!user.isPresent()) {
+            return "Invalid Token";
+        }
+        if (token != null && jwtUtil.isTokenExpired(token)) {
+            throw new Exception("Token has expired");
+        }
+        user.get().setPassword(passwordEncoder.encode(password));
+        user.get().setForgotPasswordToken(null);
+        userRepository.save(user.get());
+        return "You have successfully changed your password";
+    }
 
-			existingClient.get().setEnabled(true);
-			existingClient.get().setConfirmationToken(null);
-			userRepository.save(existingClient.get());
+    @Override
+    public String forgetPassword(@Valid AuthenticationRequestDto request) throws Exception {
+        Optional<UserEntity> user = userRepository.findByEmail(request.getEmail());
+        if (!user.isPresent() || !user.get().getEnabled()) {
+            throw new Exception("Can not reset password");
+        }
+        String email = request.getEmail();
+        String token = jwtUtil.generateTokenFromString(email);
+        try {
+            updateResetPasswordToken(token, email);
+            String resetPasswordLink = "http://localhost:8080/carpool-be/api/user" + "/reset_password?token=" + token;
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+            mailMessage.setTo(user.get().getEmail());
+            mailMessage.setFrom("carpoolproject700@gmail.com");
+            String text = "Hello, you have requested to change your password.\n"
+                    + "Click the link below to reset it\n" + resetPasswordLink;
+            mailMessage.setText(text);
+            emailSenderService.sendEmail(mailMessage);
+        } catch (Exception ex) {
+            throw new Exception("Invalid mail");
+        }
+        return "Password reset email was sent";
+    }
 
-		} else {
-			throw new Exception("Token is not present");
-		}
-		return "Successfully registered!";
-
-	}
-
-	@Override
-	public String resetPassword(String token) throws Exception {
-		Optional<UserEntity> user = userRepository.findByResetPasswordToken(token).get(0);
-
-		if (!user.isPresent()) {
-			throw new Exception("Invalid Token");
-		}
-
-		return "reset_password_form";
-	}
-
-	@Override
-	public String processResetPassword(@Valid AuthenticationRequestDto request) throws Exception {
-		String token = request.getPasswordResetToken();
-		String password = request.getPassword();
-		Optional<UserEntity> user = userRepository.findByResetPasswordToken(token).get(0);
-		if (!user.isPresent()) {
-			return "Invalid Token";
-		} else {
-			try {
-				if (token != null && jwtUtil.isTokenExpired(token)) {
-					throw new Exception("Token has expired");
-				}
-			} catch (Exception e) {
-				throw new Exception("Token has expired");
-			}
-
-			user.get().setPassword(passwordEncoder.encode(password));
-			user.get().setForgotPasswordToken(null);
-			userRepository.save(user.get());
-			return "You have successfully changed your password";
-		}
-
-	}
-
-	@Override
-	public String forgetPassword(@Valid AuthenticationRequestDto request) throws Exception {
-		Optional<UserEntity> user = userRepository.findByEmail(request.getEmail());
-
-		if (!user.isPresent()) {
-			throw new Exception("Can not reset password");
-		} else if (user.get().getEnabled() == true) {
-			String email = request.getEmail();
-			String token = jwtUtil.generateTokenFromString(email);
-
-			try {
-				updateResetPasswordToken(token, email);
-				String resetPasswordLink = "http://localhost:8080/carpool-be/api/user" + "/reset_password?token="
-						+ token;
-				SimpleMailMessage mailMessage = new SimpleMailMessage();
-				mailMessage.setTo(user.get().getEmail());
-				mailMessage.setFrom("carpoolproject700@gmail.com");
-
-				String text = "Hello, you have requested to change your password.\n"
-						+ "Click the link below to reset it\n" + resetPasswordLink;
-
-				mailMessage.setText(text);
-				emailSenderService.sendEmail(mailMessage);
-
-			} catch (Exception ex) {
-				throw new Exception("Invalid mail");
-			}
-
-		} else {
-
-			throw new Exception("Can not reset password");
-		}
-		return "Password reset email was sent";
-	}
-
-	public void updateResetPasswordToken(String token, String email) {
-
-		Optional<UserEntity> user = userRepository.findByEmail(email);
-		if (user.isPresent()) {
-			user.get().setForgotPasswordToken(token);
-			userRepository.save(user.get());
-		}
-	}
+    public void updateResetPasswordToken(String token, String email) {
+        Optional<UserEntity> user = userRepository.findByEmail(email);
+        if (user.isPresent()) {
+            user.get().setForgotPasswordToken(token);
+            userRepository.save(user.get());
+        }
+    }
 
 }
