@@ -30,16 +30,14 @@ public class UserEntity implements MyEntity {
 	private String fullName;
 	private String phone;
 	@ManyToOne
-	@JoinColumn(name = "work_ddress", referencedColumnName = "id")
+	@JoinColumn(name = "work_address", referencedColumnName = "id")
 	private AddressEntity workAddress;
 	@ManyToOne
-	@JoinColumn(name = "home_ddress", referencedColumnName = "id")
+	@JoinColumn(name = "home_address", referencedColumnName = "id")
 	private AddressEntity homeAddress;
 	@OneToOne
 	@JoinColumn(name = "plate_number")
 	private CarEntity car;
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<WorkingTimeEntity> workDays = new ArrayList<WorkingTimeEntity>();
 	@OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<RatingEntity> ratings = new ArrayList<RatingEntity>();
 	@OneToMany(mappedBy = "user", cascade = CascadeType.MERGE, orphanRemoval = true)
@@ -51,7 +49,7 @@ public class UserEntity implements MyEntity {
 	private String resetPasswordToken;
 
 	public UserEntity(Long id, String username, String email, String password, String fullName, String phone,
-			AddressEntity workAddress, AddressEntity homeAddress, CarEntity car, List<WorkingTimeEntity> workDays,
+			AddressEntity workAddress, AddressEntity homeAddress, CarEntity car,
 			List<RatingEntity> ratings, List<TakenRideEntity> takenRides, List<RideEntity> drivenRides, Boolean enabled,String confirmationToken, String forgotPasswordToken) {
 		this.id = id;
 		this.username = username;
@@ -62,7 +60,6 @@ public class UserEntity implements MyEntity {
 		this.workAddress = workAddress;
 		this.homeAddress = homeAddress;
 		this.car = car;
-		this.workDays = workDays;
 		this.ratings = ratings;
 		this.takenRides = takenRides;
 		this.drivenRides = drivenRides;
@@ -171,14 +168,6 @@ public class UserEntity implements MyEntity {
 		this.car = car;
 	}
 
-	public List<WorkingTimeEntity> getWorkDays() {
-		return workDays;
-	}
-
-	public void setWorkDays(List<WorkingTimeEntity> workDays) {
-		this.workDays = workDays;
-	}
-
 	public List<RatingEntity> getRatings() {
 		return ratings;
 	}
@@ -228,8 +217,7 @@ public class UserEntity implements MyEntity {
 	public String toString() {
 		return "UserEntity{" + "id=" + id + ", username='" + username + '\'' + ", email='" + email + '\''
 				+ ", password='" + password + '\'' + ", fullName='" + fullName + '\'' + ", phone='" + phone + '\''
-				+ ", workAddress=" + workAddress + ", homeAddress=" + homeAddress + ", car=" + car + ", workDays="
-				+ workDays + '}';
+				+ ", workAddress=" + workAddress + ", homeAddress=" + homeAddress + ", car=" + car + '}';
 	}
 
 	@Override
@@ -243,13 +231,12 @@ public class UserEntity implements MyEntity {
 				&& Objects.equals(password, that.password) && Objects.equals(fullName, that.fullName)
 				&& Objects.equals(phone, that.phone) && Objects.equals(workAddress, that.workAddress)
 				&& Objects.equals(homeAddress, that.homeAddress) && Objects.equals(car, that.car)
-				&& Objects.equals(workDays, that.workDays) && Objects.equals(takenRides, that.takenRides)
 				&& Objects.equals(drivenRides, that.drivenRides);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, username, email, password, fullName, phone, workAddress, homeAddress, car, workDays,
+		return Objects.hash(id, username, email, password, fullName, phone, workAddress, homeAddress, car,
 				takenRides, drivenRides);
 	}
 }
