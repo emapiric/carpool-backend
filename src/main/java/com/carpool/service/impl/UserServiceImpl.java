@@ -201,6 +201,15 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(user.get());
     }
 
+    @Override
+    public UserDto findByEmail(String email) throws Exception {
+        Optional<UserEntity> user = userRepository.findByEmail(email);
+        if (!user.isPresent()) {
+            throw new Exception("User doesn't exist");
+        }
+        return userMapper.toDto(user.get());
+    }
+
     public void updateResetPasswordToken(String token, String email) {
         Optional<UserEntity> user = userRepository.findByEmail(email);
         if (user.isPresent()) {

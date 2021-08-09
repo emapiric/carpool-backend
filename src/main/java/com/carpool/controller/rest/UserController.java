@@ -60,6 +60,16 @@ public class UserController {
         }
     }
 
+    @GetMapping("findByEmail/{email}")
+    public ResponseEntity<Object> findByEmail(@PathVariable String email) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(userService.findByEmail(email));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
+        }
+    }
+
     @PostMapping(value = "/registration")
     public ResponseEntity<Object> registerUser(@RequestBody @Valid UserDto user, BindingResult bindingResult) {
         try {

@@ -25,4 +25,6 @@ public interface UserService {
 	public String forgetPassword(@Valid AuthenticationRequestDto request) throws Exception;
 
     UserDto findByUsername(String username) throws Exception;
+
+	public UserDto findByEmail(String email) throws Exception;
 }
