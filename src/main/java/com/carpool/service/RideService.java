@@ -10,6 +10,7 @@ public interface RideService {
     List<RideDto> search(RideRequestDto rideRequest);
     List<RideDto> findAll();
     List<RideDto> findUpcomingByUserId(Long userId);
-	RideDto save(RideDto rideDto) throws Exception;
+    List<RideDto> findUpcomingTakenRidesByUserId(Long userId);
+    RideDto save(RideDto rideDto) throws Exception;
     void deleteRide(int id) throws Exception;
 }

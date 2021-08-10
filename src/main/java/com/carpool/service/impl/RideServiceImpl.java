@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import com.carpool.service.TakenRideService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,12 +26,14 @@ public class RideServiceImpl implements RideService {
     private RideRepository rideRepository;
     private RideEntityDtoMapper rideMapper;
     private HaversineService haversineService;
+    private TakenRideService takenRideService;
 
     @Autowired
-    public RideServiceImpl(RideRepository rideRepository, RideEntityDtoMapper rideMapper, HaversineService haversineService) {
+    public RideServiceImpl(RideRepository rideRepository, RideEntityDtoMapper rideMapper, HaversineService haversineService, TakenRideService takenRideService) {
         this.rideRepository = rideRepository;
         this.rideMapper = rideMapper;
         this.haversineService = haversineService;
+        this.takenRideService = takenRideService;
     }
 
     @Override
@@ -66,6 +69,15 @@ public class RideServiceImpl implements RideService {
     }
 
     @Override
+    public List<RideDto> findUpcomingTakenRidesByUserId(Long userId) {
+        List<Long> rideIds = takenRideService.findFutureApprovedByUserId(userId);
+        return rideRepository
+                .findAll()
+                .stream().filter(ride -> rideIds.contains(ride.getId()))
+                .map(ride -> rideMapper.toDto(ride)).collect(Collectors.toList());
+    }
+
+    @Override
     public RideDto save(RideDto rideDto) throws Exception {
         Optional<RideEntity> entity = rideRepository.findById(rideDto.getId());
         if (entity.isPresent()) {
@@ -80,5 +92,6 @@ public class RideServiceImpl implements RideService {
     public void deleteRide(int id) throws Exception {
         rideRepository.deleteById((long) id);
     }
+
 
 }

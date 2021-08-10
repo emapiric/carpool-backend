@@ -41,6 +41,11 @@ public class RideController {
 		return ResponseEntity.status(HttpStatus.OK).body(rideService.findUpcomingByUserId(userId));
 	}
 
+	@GetMapping("findUpcomingTakenRidesByUserId/{userId}")
+	public ResponseEntity<List<RideDto>> findUpcomingTakenRidesByUserId(@PathVariable Long userId) {
+		return ResponseEntity.status(HttpStatus.OK).body(rideService.findUpcomingTakenRidesByUserId(userId));
+	}
+
 	@DeleteMapping("{id}/delete")
 	public ResponseEntity<Object> deleteRide(@PathVariable int id) {
 		try {
