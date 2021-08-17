@@ -18,21 +18,18 @@ public class UserDto implements MyDto {
     @Pattern(regexp = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")
     private String email;
     @NotNull
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=\\S+$).{8,}$")
+   // @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=\\S+$).{8,}$")
     private String password;
     @Size(min = 3)
     private String fullName;
     private String phone;
-    private AddressDto workAddress;
-    private AddressDto homeAddress;
     private CarDto car;
     private List<RatingDto> ratings = new ArrayList<RatingDto>();
     private List<TakenRideDto> takenRides = new ArrayList<TakenRideDto>();
     private List<RideDto> drivenRides = new ArrayList<RideDto>();
     private Boolean enabled;
 
-    public UserDto(Long id, String username, String email, String password, String fullName, String phone,
-                   AddressDto workAddress, AddressDto homeAddress, CarDto car,
+    public UserDto(Long id, String username, String email, String password, String fullName, String phone, CarDto car,
                    List<RatingDto> ratings, List<TakenRideDto> takenRides, List<RideDto> drivenRides, Boolean enabled) {
         this.id = id;
         this.username = username;
@@ -40,8 +37,6 @@ public class UserDto implements MyDto {
         this.password = password;
         this.fullName = fullName;
         this.phone = phone;
-        this.workAddress = workAddress;
-        this.homeAddress = homeAddress;
         this.car = car;
         this.ratings = ratings;
         this.takenRides = takenRides;
@@ -108,22 +103,6 @@ public class UserDto implements MyDto {
         this.phone = phone;
     }
 
-    public AddressDto getWorkAddress() {
-        return workAddress;
-    }
-
-    public void setWorkAddress(AddressDto workAddress) {
-        this.workAddress = workAddress;
-    }
-
-    public AddressDto getHomeAddress() {
-        return homeAddress;
-    }
-
-    public void setHomeAddress(AddressDto homeAddress) {
-        this.homeAddress = homeAddress;
-    }
-
     public CarDto getCar() {
         return car;
     }
@@ -159,8 +138,7 @@ public class UserDto implements MyDto {
     @Override
     public String toString() {
         return "UserDto{" + "id=" + id + ", username='" + username + '\'' + ", email='" + email + '\'' + ", password='"
-                + password + '\'' + ", fullName='" + fullName + '\'' + ", phone='" + phone + '\'' + ", workAddress="
-                + workAddress + ", homeAddress=" + homeAddress + ", car=" + car
+                + password + '\'' + ", fullName='" + fullName + '\'' + ", phone='" + phone + '\'' + ", car=" + car
                 + ", ratings=" + ratings + ", takenRides=" + takenRides + ", drivenRides=" + drivenRides + '}';
     }
 
@@ -174,14 +152,13 @@ public class UserDto implements MyDto {
         return Objects.equals(id, userDto.id) && Objects.equals(username, userDto.username)
                 && Objects.equals(email, userDto.email) && Objects.equals(password, userDto.password)
                 && Objects.equals(fullName, userDto.fullName) && Objects.equals(phone, userDto.phone)
-                && Objects.equals(workAddress, userDto.workAddress) && Objects.equals(homeAddress, userDto.homeAddress)
                 && Objects.equals(ratings, userDto.ratings) && Objects.equals(takenRides, userDto.takenRides)
                 && Objects.equals(drivenRides, userDto.drivenRides);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, email, password, fullName, phone, workAddress, homeAddress, car,
+        return Objects.hash(id, username, email, password, fullName, phone, car,
                 ratings, takenRides, drivenRides);
     }
 }

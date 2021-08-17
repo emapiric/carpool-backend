@@ -39,8 +39,6 @@ public class UserEntityDtoMapper {
 		dto.setId(entity.getId());
 		dto.setPassword(entity.getPassword());
 		dto.setPhone(entity.getPhone());
-		dto.setHomeAddress(addressMapper.toDto(entity.getHomeAddress()));
-		dto.setWorkAddress(addressMapper.toDto(entity.getWorkAddress()));
 		dto.setUsername(entity.getUsername());
 		List<RatingEntity> ratings = new ArrayList<>();
 		dto.setRatings(ratings.stream().map(rating -> {
@@ -61,8 +59,6 @@ public class UserEntityDtoMapper {
 		entity.setId(dto.getId());
 		entity.setPassword(dto.getPassword());
 		entity.setPhone(dto.getPhone());
-		entity.setHomeAddress(addressMapper.toEntity(dto.getHomeAddress()));
-		entity.setWorkAddress(addressMapper.toEntity(dto.getWorkAddress()));
 		entity.setUsername(dto.getUsername());
 		List<RatingDto> ratings = new ArrayList<>();
 		entity.setRatings(ratings.stream().map(rating -> {
