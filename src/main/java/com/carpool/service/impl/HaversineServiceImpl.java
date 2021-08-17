@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 public class HaversineServiceImpl implements HaversineService {
 
     final int R = 6371;
+    final int maxRatio = 1;
 
     @Override
     public double toRad(double value) {
@@ -33,11 +34,11 @@ public class HaversineServiceImpl implements HaversineService {
                 ride.getFrom().getLatitude(),
                 ride.getFrom().getLongtitude(),
                 rideRequest.getFrom().getLatitude(),
-                rideRequest.getFrom().getLongtitude()) < 1 &&
+                rideRequest.getFrom().getLongtitude()) < maxRatio &&
                 this.calculateDistance(
                         ride.getTo().getLatitude(),
                         ride.getTo().getLongtitude(),
                         rideRequest.getTo().getLatitude(),
-                        rideRequest.getTo().getLongtitude()) < 1;
+                        rideRequest.getTo().getLongtitude()) < maxRatio;
     }
 }

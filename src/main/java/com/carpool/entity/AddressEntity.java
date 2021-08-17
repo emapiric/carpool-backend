@@ -11,7 +11,7 @@ public class AddressEntity implements MyEntity{
     private Long id;
     private String street;
     private String number;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="postal_code")
     private CityEntity city;
     private double latitude;

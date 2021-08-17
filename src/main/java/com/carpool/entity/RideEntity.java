@@ -30,10 +30,10 @@ public class RideEntity {
 	private int capacity;
 	@Column(name = "date_time")
 	private LocalDateTime dateTime = LocalDateTime.now();
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_from", referencedColumnName = "id")
 	private AddressEntity from;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_to", referencedColumnName = "id")
 	private AddressEntity to;
 	@Column(name = "price_per_person")

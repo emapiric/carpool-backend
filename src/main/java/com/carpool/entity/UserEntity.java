@@ -29,13 +29,13 @@ public class UserEntity implements MyEntity {
 	@Column(name = "full_name")
 	private String fullName;
 	private String phone;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "work_address", referencedColumnName = "id")
 	private AddressEntity workAddress;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "home_address", referencedColumnName = "id")
 	private AddressEntity homeAddress;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "plate_number")
 	private CarEntity car;
 	@OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
