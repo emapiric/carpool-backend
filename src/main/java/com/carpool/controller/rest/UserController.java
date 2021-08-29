@@ -109,15 +109,15 @@ public class UserController {
 
     // ova metoda samo sluzi nama za testiranje za sad, front ce confirm gadjati
     // preko posta, kada se povezemo s frontom brisemo ovo
-    @RequestMapping(value = "/confirm-account", method = {RequestMethod.GET})
-    public ResponseEntity<Object> confirmUserAccountTest(@RequestParam("token") String confirmationToken) {
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(userService.confirm(confirmationToken));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-
-    }
+//    @RequestMapping(value = "/confirm-account", method = {RequestMethod.GET})
+//    public ResponseEntity<Object> confirmUserAccountTest(@RequestParam("token") String confirmationToken) {
+//        try {
+//            return ResponseEntity.status(HttpStatus.OK).body(userService.confirm(confirmationToken));
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//        }
+//
+//    }
 
     // isto kao za GET confirm
     @GetMapping("/reset_password")

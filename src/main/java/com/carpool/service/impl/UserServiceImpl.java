@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
         mailMessage.setTo(user.getEmail());
         mailMessage.setFrom("carpoolproject700@gmail.com");
         mailMessage.setText("To confirm your account, please click here : "
-                + "http://localhost:8080/carpool-be/api/user/confirm-account?token=" + confirmationToken);
+                + "http://localhost:8100/?token=" + confirmationToken);
         try {
             emailSenderService.sendEmail(mailMessage);
         } catch (Exception e) {
