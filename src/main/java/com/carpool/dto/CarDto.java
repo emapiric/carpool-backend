@@ -18,17 +18,14 @@ public class CarDto implements MyDto{
     private LocalDate yearOfManufacturing = LocalDate.now();
     @NotNull
     private String color;
-    @NotNull
-    private UserDto owner;
 
-    public CarDto(String id, String manufacturer, String model, String type, LocalDate yearOfManufacturing, String color, UserDto owner) {
+    public CarDto(String id, String manufacturer, String model, String type, LocalDate yearOfManufacturing, String color) {
         this.id = id;
         this.manufacturer = manufacturer;
         this.model = model;
         this.type = type;
         this.yearOfManufacturing = yearOfManufacturing;
         this.color = color;
-        this.owner = owner;
     }
 
     public CarDto() {
@@ -82,14 +79,6 @@ public class CarDto implements MyDto{
         this.color = color;
     }
 
-    public UserDto getOwner() {
-        return owner;
-    }
-
-    public void setOwner(UserDto owner) {
-        this.owner = owner;
-    }
-
     @Override
     public String toString() {
         return "CarDto{" +
@@ -99,7 +88,6 @@ public class CarDto implements MyDto{
                 ", type='" + type + '\'' +
                 ", yearOfManufacturing=" + yearOfManufacturing +
                 ", color='" + color + '\'' +
-                ", owner=" + owner +
                 '}';
     }
 
@@ -108,11 +96,11 @@ public class CarDto implements MyDto{
         if (this == o) return true;
         if (!(o instanceof CarDto)) return false;
         CarDto carDto = (CarDto) o;
-        return Objects.equals(id, carDto.id) && Objects.equals(manufacturer, carDto.manufacturer) && Objects.equals(model, carDto.model) && Objects.equals(type, carDto.type) && Objects.equals(yearOfManufacturing, carDto.yearOfManufacturing) && Objects.equals(color, carDto.color) && Objects.equals(owner, carDto.owner);
+        return Objects.equals(id, carDto.id) && Objects.equals(manufacturer, carDto.manufacturer) && Objects.equals(model, carDto.model) && Objects.equals(type, carDto.type) && Objects.equals(yearOfManufacturing, carDto.yearOfManufacturing) && Objects.equals(color, carDto.color);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, manufacturer, model, type, yearOfManufacturing, color, owner);
+        return Objects.hash(id, manufacturer, model, type, yearOfManufacturing, color);
     }
 }

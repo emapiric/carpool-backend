@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -28,7 +29,8 @@ public class UserEntity implements MyEntity {
 	@Column(name = "full_name")
 	private String fullName;
 	private String phone;
-	@OneToOne(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "plate_number")
 	private CarEntity car;
 	@OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<RatingEntity> ratings = new ArrayList<RatingEntity>();

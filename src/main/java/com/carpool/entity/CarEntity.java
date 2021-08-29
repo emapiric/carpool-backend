@@ -23,12 +23,9 @@ public class CarEntity implements MyEntity {
 	@Column(name = "year_of_manufacturing")
 	private LocalDate yearOfManufacturing = LocalDate.now();
 	private String color;
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "owner_id", referencedColumnName = "id")
-	private UserEntity owner;
 
 	public CarEntity(String id, String manufacturer, String model, String type, LocalDate yearOfManufacturing,
-			String color, UserEntity owner) {
+			String color) {
 		super();
 		this.id = id;
 		this.manufacturer = manufacturer;
@@ -36,15 +33,6 @@ public class CarEntity implements MyEntity {
 		this.type = type;
 		this.yearOfManufacturing = yearOfManufacturing;
 		this.color = color;
-		this.owner = owner;
-	}
-
-	public UserEntity getOwner() {
-		return owner;
-	}
-
-	public void setOwner(UserEntity owner) {
-		this.owner = owner;
 	}
 
 	public CarEntity() {
