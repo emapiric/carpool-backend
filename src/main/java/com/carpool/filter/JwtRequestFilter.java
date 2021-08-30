@@ -1,4 +1,5 @@
 package com.carpool.filter;
+
 import java.io.IOException;
 
 import javax.servlet.FilterChain;
@@ -37,7 +38,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
 		if (authorizationHeader != null /* && authorizationHeader.startsWith("Bearer ") */) {
 			jwt = authorizationHeader/* .substring(7) */;
-			username = jwtUtil.extractUsername(jwt);
+			try {
+				username = jwtUtil.extractUsername(jwt);
+			} catch (Exception e) {
+				logger.info("Filter found an invalid token");
+			}
 		}
 
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -56,4 +61,3 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 		chain.doFilter(request, response);
 	}
 }
-
