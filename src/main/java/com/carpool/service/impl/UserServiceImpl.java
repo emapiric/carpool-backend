@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import com.carpool.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,16 +32,18 @@ public class UserServiceImpl implements UserService {
     private JwtUtil jwtUtil;
     private PasswordEncoder passwordEncoder;
     private EmailSenderService emailSenderService;
+    private NotificationService notificationService;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, UserEntityDtoMapper userMapper, RideRepository rideRepository,
-                           JwtUtil jwtUtil, PasswordEncoder passwordEncoder, EmailSenderService emailSenderService) {
+                           JwtUtil jwtUtil, PasswordEncoder passwordEncoder, EmailSenderService emailSenderService, NotificationService notificationService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.rideRepository = rideRepository;
         this.jwtUtil = jwtUtil;
         this.passwordEncoder = passwordEncoder;
         this.emailSenderService = emailSenderService;
+        this.notificationService = notificationService;
 
     }
 
@@ -83,7 +86,11 @@ public class UserServiceImpl implements UserService {
 
         UserEntity user = userEntityOptional.get();
         RideEntity ride = rideEntityOptional.get();
-        user.addTakenRide(new TakenRideEntity(user, ride, false, false));
+        TakenRideEntity takenRide = new TakenRideEntity(user, ride, false, false);
+        user.addTakenRide(takenRide);
+
+        //notificationService.notifyDriver(takenRide);
+
         userRepository.save(user);
         return userMapper.toDto(user);
     }
@@ -214,6 +221,15 @@ public class UserServiceImpl implements UserService {
         Optional<UserEntity> user = userRepository.findByEmail(email);
         if (user.isPresent()) {
             user.get().setForgotPasswordToken(token);
+            userRepository.save(user.get());
+        }
+    }
+
+    @Override
+    public void addTokenToUser(String email, String jwt) {
+        Optional<UserEntity> user = userRepository.findByEmail(email);
+        if (user.isPresent()) {
+            user.get().setJwt(jwt);
             userRepository.save(user.get());
         }
     }

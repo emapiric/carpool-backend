@@ -171,6 +171,7 @@ public class UserController {
         }
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
         final String jwt = jwtUtil.generateToken(userDetails);
+        userService.addTokenToUser(userDetails.getUsername(),jwt);
         return ResponseEntity.ok(new AuthenticationResponseDto(jwt, ((MyUser) userDetails).getType()));
     }
 

@@ -27,4 +27,6 @@ public interface UserService {
     UserDto findByUsername(String username) throws Exception;
 
 	public UserDto findByEmail(String email) throws Exception;
+
+	void addTokenToUser(String username, String jwt);
 }

@@ -19,36 +19,31 @@ import com.carpool.util.MyUser;
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 
-	@Autowired
-	private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-	@Autowired
-	UserService userService;
+    @Autowired
+    UserService userService;
 
-	@Autowired
-	UserEntityDtoMapper userMapper;;
+    @Autowired
+    UserEntityDtoMapper userMapper;
 
-	@Override
-	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
 
-		Optional<UserEntity> user = userRepository.findByEmail(s);
-
-		if (!user.isPresent()) {
-			return null;
-		}
-
-		if ((user.get()).getEnabled() == true) {
-			return new MyUser(new User(user.get().getEmail(), user.get().getPassword(), new ArrayList<>()), 1);
-		} else {
-			try {
-				userService.register(userMapper.toDto(user.get()));
-			} catch (Exception e) {
-				return null;
-			}
-
-		}
-
-		return null;
-
-	}
+        Optional<UserEntity> user = userRepository.findByEmail(s);
+        if (!user.isPresent()) {
+            return null;
+        }
+        if ((user.get()).getEnabled() == true) {
+            return new MyUser(new User(user.get().getEmail(), user.get().getPassword(), new ArrayList<>()), 1);
+        } else {
+            try {
+                userService.register(userMapper.toDto(user.get()));
+            } catch (Exception e) {
+                return null;
+            }
+        }
+        return null;
+    }
 }

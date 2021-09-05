@@ -40,8 +40,8 @@ public class RideServiceImpl implements RideService {
     public List<RideDto> search(RideRequestDto rideRequest) {
         return rideRepository
                 .findAll()
-                .stream().filter(ride -> haversineService.isOnWay(ride, rideRequest) &&
-                        isLaterToday(ride.getDateTime(), rideRequest.getDateTime()) &&
+                .stream().filter(ride -> isLaterToday(ride.getDateTime(), rideRequest.getDateTime()) &&
+                        haversineService.isOnWay(ride, rideRequest) &&
                         ride.hasSpace(rideRequest.getNumberOfPassangers()))
                 .map(ride -> rideMapper.toDto(ride)).collect(Collectors.toList());
     }
