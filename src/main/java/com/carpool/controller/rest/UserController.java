@@ -5,6 +5,9 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.Message;
+import com.google.firebase.messaging.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -171,6 +174,18 @@ public class UserController {
         }
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
         final String jwt = jwtUtil.generateToken(userDetails);
+
+        Message message = Message.builder()
+                .setNotification(
+                        new Notification("title","body")
+                )
+                .putData("payload1", "data1")
+                .putData("payload2", "data2")
+                .setToken(jwt)
+                .build();
+        FirebaseMessaging.getInstance().send(message);
+
+
         userService.addTokenToUser(userDetails.getUsername(),jwt);
         return ResponseEntity.ok(new AuthenticationResponseDto(jwt, ((MyUser) userDetails).getType()));
     }
