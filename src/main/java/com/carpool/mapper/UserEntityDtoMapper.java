@@ -46,7 +46,7 @@ public class UserEntityDtoMapper {
 		}).collect(Collectors.toList()));
 		for (TakenRideEntity takenRide : entity.getTakenRides()) {
 			dto.getTakenRides().add(new TakenRideDto(userMapper.toDto(entity),
-					rideMapper.toDto(takenRide.getRide()), takenRide.isApproved(),takenRide.isDone()));
+					rideMapper.toDto(takenRide.getRide()), takenRide.isApproved()));
 		}
 		return dto;
 	}
@@ -66,7 +66,7 @@ public class UserEntityDtoMapper {
 		}).collect(Collectors.toList()));
 		for (TakenRideDto takenRide : dto.getTakenRides()) {
 			entity.getTakenRides().add(new TakenRideEntity(entity,
-					rideMapper.toEntity(takenRide.getRide()), takenRide.isApproved(),takenRide.isDone()));
+					rideMapper.toEntity(takenRide.getRide()), takenRide.isApproved()));
 		}
 		return entity;
 

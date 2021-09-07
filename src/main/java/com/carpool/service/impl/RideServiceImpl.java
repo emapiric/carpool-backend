@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import com.carpool.entity.TakenRideEntity;
+import com.carpool.service.NotificationService;
 import com.carpool.service.TakenRideService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,13 +29,15 @@ public class RideServiceImpl implements RideService {
     private RideEntityDtoMapper rideMapper;
     private HaversineService haversineService;
     private TakenRideService takenRideService;
+    NotificationService notificationService;
 
     @Autowired
-    public RideServiceImpl(RideRepository rideRepository, RideEntityDtoMapper rideMapper, HaversineService haversineService, TakenRideService takenRideService) {
+    public RideServiceImpl(RideRepository rideRepository, RideEntityDtoMapper rideMapper, HaversineService haversineService, TakenRideService takenRideService, NotificationService notificationService) {
         this.rideRepository = rideRepository;
         this.rideMapper = rideMapper;
         this.haversineService = haversineService;
         this.takenRideService = takenRideService;
+        this.notificationService = notificationService;
     }
 
     @Override
@@ -83,14 +87,20 @@ public class RideServiceImpl implements RideService {
         if (entity.isPresent()) {
             throw new Exception("Subject already exists!");
         }
-
         RideEntity subject = rideRepository.save(rideMapper.toEntity(rideDto));
         return rideMapper.toDto(subject);
     }
 
     @Override
     public void deleteRide(int id) throws Exception {
+        //List<TakenRideEntity> takenRides = takenRideService.findAllByRide((long) id);
         rideRepository.deleteById((long) id);
+        //notificationService.addCancelRide(takenRides);
+    }
+
+    @Override
+    public RideEntity findRideEntityById(int rideId) {
+        return rideRepository.getById((long) rideId);
     }
 
 

@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import com.carpool.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,16 +32,18 @@ public class UserServiceImpl implements UserService {
     private JwtUtil jwtUtil;
     private PasswordEncoder passwordEncoder;
     private EmailSenderService emailSenderService;
+    private NotificationService notificationService;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, UserEntityDtoMapper userMapper, RideRepository rideRepository,
-                           JwtUtil jwtUtil, PasswordEncoder passwordEncoder, EmailSenderService emailSenderService) {
+                           JwtUtil jwtUtil, PasswordEncoder passwordEncoder, EmailSenderService emailSenderService, NotificationService notificationService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.rideRepository = rideRepository;
         this.jwtUtil = jwtUtil;
         this.passwordEncoder = passwordEncoder;
         this.emailSenderService = emailSenderService;
+        this.notificationService = notificationService;
 
     }
 
@@ -67,6 +70,7 @@ public class UserServiceImpl implements UserService {
         UserEntity user = userEntityOptional.get();
         user.removeTakenRide(ride);
         user = userRepository.save(user);
+        //notificationService.addCancelTakenRide(new TakenRideEntity(user,ride,false));
         return userMapper.toDto(user);
     }
 
@@ -83,8 +87,10 @@ public class UserServiceImpl implements UserService {
 
         UserEntity user = userEntityOptional.get();
         RideEntity ride = rideEntityOptional.get();
-        user.addTakenRide(new TakenRideEntity(user, ride, false, false));
+        TakenRideEntity takenRideEntity = new TakenRideEntity(user, ride, false);
+        user.addTakenRide(takenRideEntity);
         userRepository.save(user);
+        //notificationService.addRideRequest(takenRideEntity);
         return userMapper.toDto(user);
     }
 

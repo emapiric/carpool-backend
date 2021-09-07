@@ -50,7 +50,6 @@ public class RideController {
 	public ResponseEntity<Object> deleteRide(@PathVariable int id) {
 		try {
 			rideService.deleteRide(id);
-			// @Todo notify users
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Ride not found");
 		}

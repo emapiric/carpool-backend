@@ -11,14 +11,12 @@ public class TakenRideDto implements MyDto{
     private SimpleUserDto user;
     private SimpleRideDto ride;
     private boolean isApproved;
-    private boolean isDone;
 
-    public TakenRideDto(SimpleUserDto user, SimpleRideDto ride, boolean isApproved, boolean isDone) {
+    public TakenRideDto(SimpleUserDto user, SimpleRideDto ride, boolean isApproved) {
         this.id = new TakenRideId(user.getId(),ride.getId());
         this.user = user;
         this.ride = ride;
         this.isApproved = isApproved;
-        this.isDone = isDone;
     }
 
     public TakenRideDto() {
@@ -56,13 +54,6 @@ public class TakenRideDto implements MyDto{
         isApproved = approved;
     }
 
-    public boolean isDone() {
-        return isDone;
-    }
-
-    public void setDone(boolean done) {
-        isDone = done;
-    }
 
     @Override
     public String toString() {
@@ -71,7 +62,6 @@ public class TakenRideDto implements MyDto{
                 ", user=" + user +
                 ", ride=" + ride +
                 ", isApproved=" + isApproved +
-                ", isDone=" + isDone +
                 '}';
     }
 
@@ -80,11 +70,11 @@ public class TakenRideDto implements MyDto{
         if (this == o) return true;
         if (!(o instanceof TakenRideDto)) return false;
         TakenRideDto that = (TakenRideDto) o;
-        return isApproved == that.isApproved && isDone == that.isDone && Objects.equals(id, that.id) && Objects.equals(user, that.user) && Objects.equals(ride, that.ride);
+        return isApproved == that.isApproved &&  Objects.equals(id, that.id) && Objects.equals(user, that.user) && Objects.equals(ride, that.ride);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, ride, isApproved, isDone);
+        return Objects.hash(id, user, ride, isApproved);
     }
 }

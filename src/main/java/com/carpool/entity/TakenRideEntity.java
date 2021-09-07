@@ -18,15 +18,12 @@ public class TakenRideEntity {
 	private RideEntity ride;
 	@Column(name="is_approved")
 	private boolean isApproved;
-	@Column(name="is_done")
-	private boolean isDone;
 
-	public TakenRideEntity(UserEntity user, RideEntity ride, boolean isApproved, boolean isDone) {
+	public TakenRideEntity(UserEntity user, RideEntity ride, boolean isApproved) {
 		this.id = new TakenRideId(user.getId(),ride.getId());
 		this.user = user;
 		this.ride = ride;
 		this.isApproved = isApproved;
-		this.isDone = isDone;
 	}
 	
 	public TakenRideEntity(UserEntity user, RideEntity ride) {
@@ -70,13 +67,6 @@ public class TakenRideEntity {
 		isApproved = approved;
 	}
 
-	public boolean isDone() {
-		return isDone;
-	}
-
-	public void setDone(boolean done) {
-		isDone = done;
-	}
 
 	@Override
 	public String toString() {
@@ -85,7 +75,6 @@ public class TakenRideEntity {
 				", user=" + user +
 				", ride=" + ride +
 				", isApproved=" + isApproved +
-				", isDone=" + isDone +
 				'}';
 	}
 

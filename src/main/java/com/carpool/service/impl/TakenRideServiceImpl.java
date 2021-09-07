@@ -7,8 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import com.carpool.dto.RideDto;
-import com.carpool.mapper.TakenRideEntityDtoMapper;
+import com.carpool.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,14 +27,16 @@ public class TakenRideServiceImpl implements TakenRideService {
     private TakenRideRepository takenRideRepository;
     private RideRepository rideRepository;
     private UserRepository userRepository;
+    private NotificationService notificationService;
 
     @Autowired
     public TakenRideServiceImpl(TakenRideRepository takenRideRepository, RideRepository rideRepository,
-                                UserRepository userRepository) {
+                                UserRepository userRepository, NotificationService notificationService) {
         super();
         this.takenRideRepository = takenRideRepository;
         this.rideRepository = rideRepository;
         this.userRepository = userRepository;
+        this.notificationService = notificationService;
     }
 
     @Override
@@ -50,7 +51,7 @@ public class TakenRideServiceImpl implements TakenRideService {
                 if (takenRideEntityIt.getId().getRideId() == takenRide.getId().getRideId()
                         && takenRideEntityIt.getId().getUserId() == takenRide.getId().getUserId()) {
                     takenRideEntityIt.setApproved(takenRide.isApproved());
-                    takenRideEntityIt.setDone(takenRide.isDone());
+                    //notificationService.addRideApproved(takenRideEntityIt);
                 }
             }
             userRepository.save(userOptional.get());
@@ -65,8 +66,15 @@ public class TakenRideServiceImpl implements TakenRideService {
         return takenRideRepository
                 .findAll()
                 .stream().filter(ride -> ride.getUser().getId() == userId &&
-                        ride.isApproved() && !ride.isDone())
+                        ride.isApproved() && (ride.getRide().getDateTime().isEqual(LocalDateTime.now()) || ride.getRide().getDateTime().isAfter(LocalDateTime.now())))
                 .map(ride -> ride.getRide().getId()).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TakenRideEntity> findAllByRide(Long rideId) {
+        return takenRideRepository
+                .findAll()
+                .stream().filter(ride -> ride.getId().getRideId() == rideId).collect(Collectors.toList());
     }
 
 }
