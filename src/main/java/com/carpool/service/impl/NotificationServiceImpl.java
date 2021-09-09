@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -82,8 +83,9 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public List<NotificationDto> getNotificationsForUser(Long userId) {
-        return notificationRepository.findAllByReceiver(userId)
+        return notificationRepository.findAllByReceiver_Id(userId)
                 .stream()
+                .sorted(Comparator.comparing(NotificationEntity::getDateTime).reversed())
                 .map(notification -> notificationEntityDtoMapper.toDto(notification)).collect(Collectors.toList());
     }
 
