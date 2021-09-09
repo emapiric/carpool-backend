@@ -51,7 +51,7 @@ public class TakenRideServiceImpl implements TakenRideService {
                 if (takenRideEntityIt.getId().getRideId() == takenRide.getId().getRideId()
                         && takenRideEntityIt.getId().getUserId() == takenRide.getId().getUserId()) {
                     takenRideEntityIt.setApproved(takenRide.isApproved());
-                    //notificationService.addRideApproved(takenRideEntityIt);
+                    notificationService.addRideApproved(takenRideEntityIt);
                 }
             }
             userRepository.save(userOptional.get());
@@ -75,6 +75,11 @@ public class TakenRideServiceImpl implements TakenRideService {
         return takenRideRepository
                 .findAll()
                 .stream().filter(ride -> ride.getId().getRideId() == rideId).collect(Collectors.toList());
+    }
+
+    @Override
+    public TakenRideEntity findByUserAndRide(UserEntity user, RideEntity ride) {
+        return takenRideRepository.findByUserAndRide(user, ride).get(0);
     }
 
 }

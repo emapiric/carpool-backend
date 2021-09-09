@@ -86,8 +86,7 @@ public class TakenRideEntity {
 			return false;
 
 		TakenRideEntity that = (TakenRideEntity) o;
-		return Objects.equals(ride, that.ride) &&
-				Objects.equals(user, that.user);
+		return Objects.equals(id, that.getId());
 	}
 
 	@Override

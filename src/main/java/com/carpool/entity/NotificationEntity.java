@@ -18,7 +18,7 @@ public class NotificationEntity implements MyEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumns({
             @JoinColumn(name="userId"),
             @JoinColumn(name="rideId")

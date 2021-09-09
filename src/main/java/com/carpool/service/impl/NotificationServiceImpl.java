@@ -46,9 +46,10 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void addCancelTakenRide(TakenRideEntity takenRide) {
+        deleteForeignKeyFromExistingNotifications(takenRide);
         RideEntity ride = takenRide.getRide();
         String message = "User " + takenRide.getUser().getUsername() + " canceled his ride request " + rideDetails(ride);
-        NotificationEntity notificationEntity = new NotificationEntity(takenRide, ride.getDriver(), message);
+        NotificationEntity notificationEntity = new NotificationEntity(null, ride.getDriver(), message);
         notificationRepository.save(notificationEntity);
     }
 
@@ -59,9 +60,24 @@ public class NotificationServiceImpl implements NotificationService {
         String message = "Driver " + ride.getDriver().getUsername() + " canceled his ride " + rideDetails(ride);
         List<NotificationEntity> notifications = new ArrayList<>();
         for (TakenRideEntity takenRide : takenRides) {
-            notifications.add(new NotificationEntity(takenRide, takenRide.getUser(), message));
+            deleteForeignKeyFromExistingNotifications(takenRide);
+            notifications.add(new NotificationEntity(null, takenRide.getUser(), message));
         }
         notificationRepository.saveAll(notifications);
+    }
+
+    private void deleteForeignKeyFromExistingNotifications(TakenRideEntity takenRide) {
+        List<NotificationEntity> notifications =
+                notificationRepository.findAll()
+                .stream().filter(notification -> notification.getTakenRide()!=null && notification.getTakenRide().equals(takenRide))
+                .collect(Collectors.toList());
+        List<NotificationEntity> notificationsWithoutForeignKeys =
+                notifications
+                        .stream()
+                        .map(notification ->
+                                new NotificationEntity(notification.getId(), null, notification.getReceiver(), notification.getMessage(), notification.getDateTime()))
+                        .collect(Collectors.toList());
+        notificationRepository.saveAll(notificationsWithoutForeignKeys);
     }
 
     @Override
@@ -70,6 +86,7 @@ public class NotificationServiceImpl implements NotificationService {
                 .stream()
                 .map(notification -> notificationEntityDtoMapper.toDto(notification)).collect(Collectors.toList());
     }
+
 
     private String rideDetails(RideEntity ride) {
         return "from " + ride.getFrom().getStreet() + " " + ride.getFrom().getNumber() +

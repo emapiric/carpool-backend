@@ -93,9 +93,9 @@ public class RideServiceImpl implements RideService {
 
     @Override
     public void deleteRide(int id) throws Exception {
-        //List<TakenRideEntity> takenRides = takenRideService.findAllByRide((long) id);
+        List<TakenRideEntity> takenRides = takenRideService.findAllByRide((long) id);
+        notificationService.addCancelRide(takenRides);
         rideRepository.deleteById((long) id);
-        //notificationService.addCancelRide(takenRides);
     }
 
     @Override
