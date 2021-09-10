@@ -67,6 +67,10 @@ public class TakenRideEntity {
 		isApproved = approved;
 	}
 
+	public String getApprovedString() {
+		return isApproved ? " approved " : " rejected ";
+	}
+
 
 	@Override
 	public String toString() {

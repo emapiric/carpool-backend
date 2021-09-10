@@ -40,7 +40,7 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void addRideApproved(TakenRideEntity takenRide) {
         RideEntity ride = takenRide.getRide();
-        String message = "Driver " + ride.getDriver().getUsername() + " approved your ride request " + rideDetails(ride);
+        String message = "Driver " + ride.getDriver().getUsername() + takenRide.getApprovedString()+"your ride request " + rideDetails(ride);
         NotificationEntity notificationEntity = new NotificationEntity(takenRide, takenRide.getUser(), message);
         notificationRepository.save(notificationEntity);
     }
