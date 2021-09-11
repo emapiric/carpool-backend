@@ -8,12 +8,15 @@ import com.carpool.mapper.NotificationEntityDtoMapper;
 import com.carpool.repository.NotificationRepository;
 import com.carpool.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,7 +45,6 @@ public class NotificationServiceImpl implements NotificationService {
         RideEntity ride = takenRide.getRide();
         String message = "Driver " + ride.getDriver().getUsername() + takenRide.getApprovedString()+"your ride request " + rideDetails(ride);
         NotificationEntity notificationEntity = new NotificationEntity(takenRide, takenRide.getUser(), message, false);
-        notificationEntity.setAnswered(true);
         notificationRepository.save(notificationEntity);
     }
 
@@ -88,6 +90,16 @@ public class NotificationServiceImpl implements NotificationService {
                 .stream()
                 .sorted(Comparator.comparing(NotificationEntity::getDateTime).reversed())
                 .map(notification -> notificationEntityDtoMapper.toDto(notification)).collect(Collectors.toList());
+    }
+
+    @Override
+    public NotificationDto setNotificationToAnswered(Long notificationId) {
+        Optional<NotificationEntity> notificationEntity = notificationRepository.findById(notificationId);
+        if (notificationEntity.isPresent()) {
+            notificationEntity.get().setAnswered(true);
+            notificationRepository.save(notificationEntity.get());
+            return notificationEntityDtoMapper.toDto(notificationEntity.get());
+        } else return null;
     }
 
 

@@ -12,4 +12,5 @@ public interface NotificationService {
     void addCancelTakenRide(TakenRideEntity takenRide);
     void addCancelRide(List<TakenRideEntity> takenRides);
     List<NotificationDto> getNotificationsForUser(Long userId);
+    NotificationDto setNotificationToAnswered(Long notificationId);
 }
