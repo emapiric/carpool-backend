@@ -42,6 +42,7 @@ public class NotificationServiceImpl implements NotificationService {
         RideEntity ride = takenRide.getRide();
         String message = "Driver " + ride.getDriver().getUsername() + takenRide.getApprovedString()+"your ride request " + rideDetails(ride);
         NotificationEntity notificationEntity = new NotificationEntity(takenRide, takenRide.getUser(), message, false);
+        notificationEntity.setAnswered(true);
         notificationRepository.save(notificationEntity);
     }
 
@@ -76,7 +77,7 @@ public class NotificationServiceImpl implements NotificationService {
                 notifications
                         .stream()
                         .map(notification ->
-                                new NotificationEntity(notification.getId(), null, notification.getReceiver(), notification.getMessage(), notification.getDateTime(), false))
+                                new NotificationEntity(notification.getId(), null, notification.getReceiver(), notification.getMessage(), notification.getDateTime(), notification.isRideRequest(), notification.isAnswered()))
                         .collect(Collectors.toList());
         notificationRepository.saveAll(notificationsWithoutForeignKeys);
     }

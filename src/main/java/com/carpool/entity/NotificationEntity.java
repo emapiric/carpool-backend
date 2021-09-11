@@ -1,6 +1,5 @@
 package com.carpool.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,14 +29,16 @@ public class NotificationEntity implements MyEntity{
     private String message;
     private LocalDateTime dateTime = LocalDateTime.now();
     private boolean isRideRequest;
+    private boolean isAnswered;
 
-    public NotificationEntity(Long id, TakenRideEntity takenRide, UserEntity receiver, String message, LocalDateTime dateTime, boolean isRideRequest) {
+    public NotificationEntity(Long id, TakenRideEntity takenRide, UserEntity receiver, String message, LocalDateTime dateTime, boolean isRideRequest, boolean isAnswered) {
         this.id = id;
         this.takenRide = takenRide;
         this.receiver = receiver;
         this.message = message;
         this.dateTime = dateTime;
         this.isRideRequest = isRideRequest;
+        this.isAnswered = isAnswered;
     }
 
     public NotificationEntity(TakenRideEntity takenRide, UserEntity receiver, String message, boolean isRideRequest) {
@@ -96,6 +97,14 @@ public class NotificationEntity implements MyEntity{
 
     public void setRideRequest(boolean rideRequest) {
         isRideRequest = rideRequest;
+    }
+
+    public boolean isAnswered() {
+        return isAnswered;
+    }
+
+    public void setAnswered(boolean answered) {
+        isAnswered = answered;
     }
 
     @Override
