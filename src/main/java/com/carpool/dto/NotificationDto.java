@@ -11,13 +11,15 @@ public class NotificationDto implements MyDto{
     private UserDto receiver;
     private String message;
     private LocalDateTime dateTime;
+    private boolean isRideRequest;
 
-    public NotificationDto(Long id, TakenRideDto takenRide, UserDto receiver, String message, LocalDateTime dateTime) {
+    public NotificationDto(Long id, TakenRideDto takenRide, UserDto receiver, String message, LocalDateTime dateTime, boolean isRideRequest) {
         this.id = id;
         this.takenRide = takenRide;
         this.receiver = receiver;
         this.message = message;
         this.dateTime = dateTime;
+        this.isRideRequest = isRideRequest;
     }
 
     public NotificationDto() {
@@ -61,6 +63,14 @@ public class NotificationDto implements MyDto{
 
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public boolean isRideRequest() {
+        return isRideRequest;
+    }
+
+    public void setRideRequest(boolean rideRequest) {
+        isRideRequest = rideRequest;
     }
 
     @Override

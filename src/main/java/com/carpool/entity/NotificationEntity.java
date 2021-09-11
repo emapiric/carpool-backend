@@ -29,19 +29,22 @@ public class NotificationEntity implements MyEntity{
     private UserEntity receiver;
     private String message;
     private LocalDateTime dateTime = LocalDateTime.now();
+    private boolean isRideRequest;
 
-    public NotificationEntity(Long id, TakenRideEntity takenRide, UserEntity receiver, String message, LocalDateTime dateTime) {
+    public NotificationEntity(Long id, TakenRideEntity takenRide, UserEntity receiver, String message, LocalDateTime dateTime, boolean isRideRequest) {
         this.id = id;
         this.takenRide = takenRide;
         this.receiver = receiver;
         this.message = message;
         this.dateTime = dateTime;
+        this.isRideRequest = isRideRequest;
     }
 
-    public NotificationEntity(TakenRideEntity takenRide, UserEntity receiver, String message) {
+    public NotificationEntity(TakenRideEntity takenRide, UserEntity receiver, String message, boolean isRideRequest) {
         this.takenRide = takenRide;
         this.receiver = receiver;
         this.message = message;
+        this.isRideRequest = isRideRequest;
     }
 
     public NotificationEntity() {
@@ -85,6 +88,14 @@ public class NotificationEntity implements MyEntity{
 
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public boolean isRideRequest() {
+        return isRideRequest;
+    }
+
+    public void setRideRequest(boolean rideRequest) {
+        isRideRequest = rideRequest;
     }
 
     @Override

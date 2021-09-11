@@ -33,7 +33,7 @@ public class NotificationServiceImpl implements NotificationService {
     public void addRideRequest(TakenRideEntity takenRide) {
         RideEntity ride = takenRide.getRide();
         String message = "User " + takenRide.getUser().getUsername() + " requested to join your ride " + rideDetails(ride);
-        NotificationEntity notificationEntity = new NotificationEntity(takenRide, ride.getDriver(), message);
+        NotificationEntity notificationEntity = new NotificationEntity(takenRide, ride.getDriver(), message, true);
         notificationRepository.save(notificationEntity);
     }
 
@@ -41,7 +41,7 @@ public class NotificationServiceImpl implements NotificationService {
     public void addRideApproved(TakenRideEntity takenRide) {
         RideEntity ride = takenRide.getRide();
         String message = "Driver " + ride.getDriver().getUsername() + takenRide.getApprovedString()+"your ride request " + rideDetails(ride);
-        NotificationEntity notificationEntity = new NotificationEntity(takenRide, takenRide.getUser(), message);
+        NotificationEntity notificationEntity = new NotificationEntity(takenRide, takenRide.getUser(), message, false);
         notificationRepository.save(notificationEntity);
     }
 
@@ -50,7 +50,7 @@ public class NotificationServiceImpl implements NotificationService {
         deleteForeignKeyFromExistingNotifications(takenRide);
         RideEntity ride = takenRide.getRide();
         String message = "User " + takenRide.getUser().getUsername() + " canceled his ride request " + rideDetails(ride);
-        NotificationEntity notificationEntity = new NotificationEntity(null, ride.getDriver(), message);
+        NotificationEntity notificationEntity = new NotificationEntity(null, ride.getDriver(), message, false);
         notificationRepository.save(notificationEntity);
     }
 
@@ -62,7 +62,7 @@ public class NotificationServiceImpl implements NotificationService {
         List<NotificationEntity> notifications = new ArrayList<>();
         for (TakenRideEntity takenRide : takenRides) {
             deleteForeignKeyFromExistingNotifications(takenRide);
-            notifications.add(new NotificationEntity(null, takenRide.getUser(), message));
+            notifications.add(new NotificationEntity(null, takenRide.getUser(), message, false));
         }
         notificationRepository.saveAll(notifications);
     }
@@ -76,7 +76,7 @@ public class NotificationServiceImpl implements NotificationService {
                 notifications
                         .stream()
                         .map(notification ->
-                                new NotificationEntity(notification.getId(), null, notification.getReceiver(), notification.getMessage(), notification.getDateTime()))
+                                new NotificationEntity(notification.getId(), null, notification.getReceiver(), notification.getMessage(), notification.getDateTime(), false))
                         .collect(Collectors.toList());
         notificationRepository.saveAll(notificationsWithoutForeignKeys);
     }
