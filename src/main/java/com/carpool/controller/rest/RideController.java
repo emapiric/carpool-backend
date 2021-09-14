@@ -31,11 +31,6 @@ public class RideController {
 		return ResponseEntity.status(HttpStatus.OK).body(rideService.search(rideRequestDto));
 	}
 
-	@GetMapping
-	public ResponseEntity<List<RideDto>> findAll() {
-		return ResponseEntity.status(HttpStatus.OK).body(rideService.findAll());
-	}
-
 	@GetMapping("findUpcomingByUserId/{userId}")
 	public ResponseEntity<List<RideDto>> findUpcomingByUserId(@PathVariable Long userId) {
 		return ResponseEntity.status(HttpStatus.OK).body(rideService.findUpcomingByUserId(userId));

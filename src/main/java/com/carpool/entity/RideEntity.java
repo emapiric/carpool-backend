@@ -146,6 +146,6 @@ public class RideEntity {
 	}
 
 	public boolean hasSpace(int numberOfPassangers) {
-		return this.capacity > this.passengers.size() + numberOfPassangers;
+		return this.capacity >= this.passengers.size() + numberOfPassangers;
 	}
 }

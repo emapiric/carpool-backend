@@ -8,10 +8,7 @@ import com.carpool.mapper.NotificationEntityDtoMapper;
 import com.carpool.repository.NotificationRepository;
 import com.carpool.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Comparator;

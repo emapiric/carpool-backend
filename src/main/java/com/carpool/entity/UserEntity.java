@@ -32,8 +32,6 @@ public class UserEntity implements MyEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "plate_number")
 	private CarEntity car;
-	@OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<RatingEntity> ratings = new ArrayList<RatingEntity>();
 	@OneToMany(mappedBy = "user", cascade = CascadeType.MERGE, orphanRemoval = true)
 	private List<TakenRideEntity> takenRides = new ArrayList<TakenRideEntity>();
 	@OneToMany(mappedBy = "driver", cascade = CascadeType.MERGE, orphanRemoval = true)
@@ -43,7 +41,7 @@ public class UserEntity implements MyEntity {
 	private String resetPasswordToken;
 
 	public UserEntity(Long id, String username, String email, String password, String fullName, String phone,
-			CarEntity car, List<RatingEntity> ratings, List<TakenRideEntity> takenRides, List<RideEntity> drivenRides,
+			CarEntity car, List<TakenRideEntity> takenRides, List<RideEntity> drivenRides,
 			Boolean enabled, String confirmationToken, String forgotPasswordToken) {
 		this.id = id;
 		this.username = username;
@@ -52,7 +50,6 @@ public class UserEntity implements MyEntity {
 		this.fullName = fullName;
 		this.phone = phone;
 		this.car = car;
-		this.ratings = ratings;
 		this.takenRides = takenRides;
 		this.drivenRides = drivenRides;
 		this.enabled = enabled;
@@ -141,14 +138,6 @@ public class UserEntity implements MyEntity {
 
 	public void setCar(CarEntity car) {
 		this.car = car;
-	}
-
-	public List<RatingEntity> getRatings() {
-		return ratings;
-	}
-
-	public void setRatings(List<RatingEntity> ratings) {
-		this.ratings = ratings;
 	}
 
 	public List<TakenRideEntity> getTakenRides() {

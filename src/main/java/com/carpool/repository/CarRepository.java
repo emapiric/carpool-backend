@@ -2,8 +2,8 @@ package com.carpool.repository;
 
 import com.carpool.entity.CarEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.stereotype.Repository;
 
-@RepositoryRestResource(collectionResourceRel = "car", path="car")
+@Repository("car")
 public interface CarRepository extends JpaRepository<CarEntity,Long> {
 }

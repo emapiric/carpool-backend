@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.metamodel.EntityType;
 
+import com.carpool.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -28,10 +29,12 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
-    	HttpMethod[] theUnsupportedActions = {HttpMethod.DELETE};
+    	HttpMethod[] theUnsupportedActionsRide = {HttpMethod.DELETE, HttpMethod.GET, HttpMethod.PUT};
+        HttpMethod[] theUnsupportedActionsUser = {HttpMethod.DELETE, HttpMethod.GET, HttpMethod.POST};
 
 
-        disableHttpMethods(RideEntity.class, config, theUnsupportedActions);
+        disableHttpMethods(RideEntity.class, config, theUnsupportedActionsRide);
+        disableHttpMethods(UserEntity.class, config, theUnsupportedActionsUser);
 
         exposeIds(config);
     }

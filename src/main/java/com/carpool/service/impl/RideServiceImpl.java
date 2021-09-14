@@ -2,7 +2,6 @@ package com.carpool.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import com.carpool.dto.RideDto;
 import com.carpool.dto.RideRequestDto;
-import com.carpool.entity.RideEntity;
 import com.carpool.mapper.RideEntityDtoMapper;
 import com.carpool.repository.RideRepository;
 import com.carpool.service.HaversineService;
@@ -58,12 +56,6 @@ public class RideServiceImpl implements RideService {
     }
 
     @Override
-    public List<RideDto> findAll() {
-        List<RideEntity> entities = rideRepository.findAll();
-        return entities.stream().map(entity -> rideMapper.toDto(entity)).collect(Collectors.toList());
-    }
-
-    @Override
     public List<RideDto> findUpcomingByUserId(Long userId) {
         return rideRepository
                 .findAll()
@@ -82,25 +74,10 @@ public class RideServiceImpl implements RideService {
     }
 
     @Override
-    public RideDto save(RideDto rideDto) throws Exception {
-        Optional<RideEntity> entity = rideRepository.findById(rideDto.getId());
-        if (entity.isPresent()) {
-            throw new Exception("Subject already exists!");
-        }
-        RideEntity subject = rideRepository.save(rideMapper.toEntity(rideDto));
-        return rideMapper.toDto(subject);
-    }
-
-    @Override
     public void deleteRide(int id) throws Exception {
         List<TakenRideEntity> takenRides = takenRideService.findAllByRide((long) id);
         notificationService.addCancelRide(takenRides);
         rideRepository.deleteById((long) id);
-    }
-
-    @Override
-    public RideEntity findRideEntityById(int rideId) {
-        return rideRepository.getById((long) rideId);
     }
 
 
