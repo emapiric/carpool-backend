@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.carpool.entity.UserEntity;
 import com.carpool.mapper.UserEntityDtoMapper;
 import com.carpool.repository.UserRepository;
-import com.carpool.service.UserService;
 import com.carpool.util.MyUser;
 
 @Service
@@ -23,10 +22,7 @@ public class MyUserDetailsService implements UserDetailsService {
 	private UserRepository userRepository;
 
 	@Autowired
-	UserService userService;
-
-	@Autowired
-	UserEntityDtoMapper userMapper;;
+	UserEntityDtoMapper userMapper;
 
 	@Override
 	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -39,13 +35,6 @@ public class MyUserDetailsService implements UserDetailsService {
 
 		if ((user.get()).getEnabled() == true) {
 			return new MyUser(new User(user.get().getEmail(), user.get().getPassword(), new ArrayList<>()), 1);
-		} else {
-			try {
-				userService.register(userMapper.toDto(user.get()));
-			} catch (Exception e) {
-				return null;
-			}
-
 		}
 
 		return null;
