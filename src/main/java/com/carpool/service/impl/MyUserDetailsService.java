@@ -22,7 +22,7 @@ public class MyUserDetailsService implements UserDetailsService {
 	private UserRepository userRepository;
 
 	@Autowired
-	UserEntityDtoMapper userMapper;
+	private UserEntityDtoMapper userMapper;
 
 	@Override
 	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
